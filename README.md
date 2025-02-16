@@ -11,9 +11,6 @@ Zudio is an **eCommerce clothing website** built using the **MERN stack** (Mongo
 - **Frontend:** React, Tailwind CSS  
 - **Backend:** (In Progress) Node.js, Express, MongoDB  
 
-## 🔧 Current Status  
-The frontend is functional, but the backend is still under development. Features like authentication, cart functionality, and order processing will be added soon!  
-
 ## 📌 Installation  
 1. Clone the repository:  
    ```sh
