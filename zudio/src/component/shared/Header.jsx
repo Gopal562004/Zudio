@@ -57,8 +57,12 @@ const Header = () => {
       </div>
 
       {/* Logo Section */}
-      <Link to="/" className="text-2xl md:text-4xl font-serif lg:pl-5">
-        Zudio
+      <Link
+        to="/"
+        className="text-2xl md:text-4xl font-serif flex space-x-2"
+      >
+        <img src="/icons/homeicon.png" alt="Home Icon" className="w-8 h-8 lg:w-10 lg:h-10" />
+        <span>Zudio</span>
       </Link>
 
       {/* Navigation Links (Hidden on Mobile) */}
