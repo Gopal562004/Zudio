@@ -104,7 +104,7 @@ const MainProductCard = () => {
           {!isInCart ? (
             <button
               onClick={handleAddToCart}
-              className="w-full py-3 mt-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+              className="w-full py-3 mt-4 bg-gray-800 text-white  hover:bg-gray-700 transition"
             >
               Add to Cart
             </button>
@@ -112,14 +112,14 @@ const MainProductCard = () => {
             <div className="mt-4 flex items-center gap-4">
               <button
                 onClick={handleDecreaseQuantity}
-                className="bg-gray-200 px-4 py-2 rounded-md"
+                className="bg-gray-200 px-4 py-2"
               >
                 −
               </button>
               <span className="text-lg font-semibold">{quantity}</span>
               <button
                 onClick={handleIncreaseQuantity}
-                className="bg-gray-200 px-4 py-2 rounded-md"
+                className="bg-gray-200 px-4 py-2"
               >
                 +
               </button>
@@ -128,7 +128,7 @@ const MainProductCard = () => {
 
           <button
             onClick={handleBuyNow}
-            className="w-full py-3 mt-4 bg-green-600 text-white rounded-md hover:bg-green-700 transition"
+            className="w-full py-3 mt-4 bg-black text-white transition"
           >
             Buy Now
           </button>

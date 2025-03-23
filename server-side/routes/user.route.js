@@ -5,8 +5,9 @@ const {
   forgotPassword,
   resetPassword,
   loginUser,
+  getInTouch,
 } = require("../controllers/user.controller");
-
+const { isAdmin, protect } = require("../middlewares/authMiddleware");
 // Route for registering a user
 router.post("/register", registerUser);
 
@@ -17,6 +18,6 @@ router.post("/forgot-password", forgotPassword);
 router.post("/resetPassword", resetPassword);
 // Route for OTP-based login (requesting OTP)
 // router.post("/otp-login", otpLogin);
-
+router.post("/contact", getInTouch);
 
 module.exports = router;

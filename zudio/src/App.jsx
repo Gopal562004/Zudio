@@ -193,7 +193,8 @@ import Buy from "./component/user/Buy";
 import AuthLayout from "./component/auth/AuthLayout";
 import ProfileLayout from "./component/user/ProfileLayout";
 import Profile from "./component/user/Profile";
-
+import ContactUs from "./component/contactUs/ContactUs";
+import Blog from "./component/blog/Blog";
 const App = () => {
   return (
     <AuthProvider>
@@ -213,6 +214,8 @@ const App = () => {
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/shop" element={<Shop />} />
+                  <Route path="/contact-us" element={<ContactUs />} />
+                  <Route path="/blog" element={<Blog />} />
                   <Route
                     path="/product/:productId"
                     element={<MainProductCard />}

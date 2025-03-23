@@ -259,6 +259,142 @@
 // };
 
 // export default ShopMain;
+// import React, { useState, useEffect } from "react";
+// import { useSearchParams } from "react-router-dom"; // Import hook to read URL params
+// import DesktopShopSideBar from "./DesktopShopSideBar";
+// import MobileShopSideBar from "./MobileShopSideBar";
+// import ProductCategories from "./ProductCategories";
+// import { getProducts, searchProductsByName } from "../../mongo/productServices";
+
+// const ShopMain = () => {
+//   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+//   const [productsToShow, setProductsToShow] = useState(9);
+//   const [products, setProducts] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const [totalPages, setTotalPages] = useState(1);
+//   const [searchParams] = useSearchParams(); // Get URL params
+
+//   const searchQuery = searchParams.get("query"); // Updated query parameter
+
+//   useEffect(() => {
+//     const fetchProducts = async () => {
+//       setLoading(true);
+//       try {
+//         let data;
+//         if (searchQuery) {
+//           data = await searchProductsByName(searchQuery);
+//         } else {
+//           data = await getProducts(currentPage, productsToShow);
+//         }
+
+//         setProducts(data.products || []); // Ensure products is always an array
+//         setTotalPages(data.totalPages || 1); // Default to 1 if no totalPages
+//       } catch (error) {
+//         console.error("Error fetching products:", error);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchProducts();
+//   }, [currentPage, productsToShow, searchQuery]); // Re-fetch when page, limit, or search query changes
+
+//   return (
+//     <div className="mx-4 lg:mx-16 xl:mx-56 min-h-screen">
+//       <div className="font-semibold text-3xl lg:text-5xl flex justify-center items-center mt-12 lg:mt-16">
+//         Shop
+//       </div>
+
+//       <button
+//         onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
+//         className="lg:hidden bg-blue-500 text-white px-4 py-2 rounded-md mt-4"
+//       >
+//         {isMobileSidebarOpen ? "Close Menu" : "Open Menu"}
+//       </button>
+
+//       <MobileShopSideBar
+//         isOpen={isMobileSidebarOpen}
+//         onClose={() => setIsMobileSidebarOpen(false)}
+//       />
+
+//       <div className="flex flex-col lg:flex-row mt-8">
+//         <div className="hidden lg:block w-full lg:w-1/4">
+//           <DesktopShopSideBar />
+//         </div>
+
+//         <div className="w-full lg:w-3/4">
+//           <div className="flex justify-between items-center mb-4">
+//             <div className="results">
+//               {searchQuery
+//                 ? `Showing results for "${searchQuery}"`
+//                 : `Showing 1–${productsToShow} of ${products.length} results`}
+//             </div>
+//             <div className="controls">
+//               <label htmlFor="show">Show </label>
+//               <select
+//                 id="show"
+//                 value={productsToShow}
+//                 onChange={(e) => setProductsToShow(Number(e.target.value))}
+//               >
+//                 <option value="9">9</option>
+//                 <option value="12">12</option>
+//                 <option value="15">15</option>
+//               </select>
+//               <span className="ml-2">Default sorting</span>
+//             </div>
+//           </div>
+
+//           {loading ? (
+//             <div>Loading...</div>
+//           ) : products.length > 0 ? (
+//             <ProductCategories products={products} />
+//           ) : (
+//             <div className="text-center text-gray-500 mt-4">
+//               No products found
+//             </div>
+//           )}
+
+//           {!searchQuery && totalPages > 1 && (
+//             <div className="flex justify-center mt-4">
+//               <button
+//                 onClick={() => setCurrentPage(currentPage - 1)}
+//                 disabled={currentPage === 1}
+//                 className="px-4 py-2 bg-blue-500 text-white rounded-md disabled:bg-gray-400"
+//               >
+//                 Previous
+//               </button>
+
+//               {[...Array(totalPages)].map((_, index) => (
+//                 <button
+//                   key={index}
+//                   onClick={() => setCurrentPage(index + 1)}
+//                   className={`px-4 py-2 mx-2 rounded-md ${
+//                     currentPage === index + 1
+//                       ? "bg-blue-500 text-white"
+//                       : "bg-gray-200"
+//                   }`}
+//                 >
+//                   {index + 1}
+//                 </button>
+//               ))}
+
+//               <button
+//                 onClick={() => setCurrentPage(currentPage + 1)}
+//                 disabled={currentPage === totalPages}
+//                 className="px-4 py-2 bg-blue-500 text-white rounded-md disabled:bg-gray-400"
+//               >
+//                 Next
+//               </button>
+//             </div>
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ShopMain;
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom"; // Import hook to read URL params
 import DesktopShopSideBar from "./DesktopShopSideBar";
@@ -275,7 +411,7 @@ const ShopMain = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [searchParams] = useSearchParams(); // Get URL params
 
-  const searchQuery = searchParams.get("query"); // Updated query parameter
+  const searchQuery = searchParams.get("query"); // Get search query from URL
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -288,8 +424,10 @@ const ShopMain = () => {
           data = await getProducts(currentPage, productsToShow);
         }
 
-        setProducts(data.products || []); // Ensure products is always an array
-        setTotalPages(data.totalPages || 1); // Default to 1 if no totalPages
+        console.log("API Response:", data); // Debugging: Log full response
+
+        setProducts(data.products || []);
+        setTotalPages(data.pages || 1); // Fix: Use 'pages' from backend
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -306,6 +444,7 @@ const ShopMain = () => {
         Shop
       </div>
 
+      {/* Mobile Sidebar Toggle */}
       <button
         onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
         className="lg:hidden bg-blue-500 text-white px-4 py-2 rounded-md mt-4"
@@ -319,16 +458,18 @@ const ShopMain = () => {
       />
 
       <div className="flex flex-col lg:flex-row mt-8">
+        {/* Desktop Sidebar */}
         <div className="hidden lg:block w-full lg:w-1/4">
           <DesktopShopSideBar />
         </div>
 
         <div className="w-full lg:w-3/4">
+          {/* Product Filter & Sorting */}
           <div className="flex justify-between items-center mb-4">
             <div className="results">
               {searchQuery
                 ? `Showing results for "${searchQuery}"`
-                : `Showing 1–${productsToShow} of ${products.length} results`}
+                : `Showing ${products.length} results`}
             </div>
             <div className="controls">
               <label htmlFor="show">Show </label>
@@ -345,6 +486,7 @@ const ShopMain = () => {
             </div>
           </div>
 
+          {/* Display Products or Loading Message */}
           {loading ? (
             <div>Loading...</div>
           ) : products.length > 0 ? (
@@ -355,12 +497,13 @@ const ShopMain = () => {
             </div>
           )}
 
+          {/* Pagination Controls */}
           {!searchQuery && totalPages > 1 && (
             <div className="flex justify-center mt-4">
               <button
                 onClick={() => setCurrentPage(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="px-4 py-2 bg-blue-500 text-white rounded-md disabled:bg-gray-400"
+                className="px-4 py-2 bg-black text-white  disabled:bg-gray-400"
               >
                 Previous
               </button>
@@ -369,9 +512,9 @@ const ShopMain = () => {
                 <button
                   key={index}
                   onClick={() => setCurrentPage(index + 1)}
-                  className={`px-4 py-2 mx-2 rounded-md ${
+                  className={`px-4 py-2 mx-2 ${
                     currentPage === index + 1
-                      ? "bg-blue-500 text-white"
+                      ? "bg-black text-white"
                       : "bg-gray-200"
                   }`}
                 >
@@ -382,7 +525,7 @@ const ShopMain = () => {
               <button
                 onClick={() => setCurrentPage(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="px-4 py-2 bg-blue-500 text-white rounded-md disabled:bg-gray-400"
+                className="px-4 py-2 bg-black text-white disabled:bg-gray-400"
               >
                 Next
               </button>

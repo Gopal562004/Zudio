@@ -59,3 +59,14 @@ export const loginUser = async (credentials) => {
     throw error.response?.data || { message: "An error occurred" };
   }
 };
+
+// Function to send the contact form
+// Send Contact Form
+export const sendContactForm = async (formData) => {
+  try {
+    const response = await axiosInstance.post("/users/contact", formData);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data?.error || "Something went wrong";
+  }
+};

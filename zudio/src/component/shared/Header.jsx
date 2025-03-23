@@ -72,10 +72,10 @@ const Header = () => {
         <Link to="#" className="hover:text-gray-600">
           PAGES
         </Link>
-        <Link to="#" className="hover:text-gray-600">
+        <Link to="/blog" className="hover:text-gray-600">
           BLOG
         </Link>
-        <Link to="#" className="hover:text-gray-600">
+        <Link to="contact-us" className="hover:text-gray-600">
           CONTACT US
         </Link>
       </div>

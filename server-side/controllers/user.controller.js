@@ -79,7 +79,8 @@ const forgotPassword = async (req, res) => {
 
     // Log if email was sent successfully
     console.log("OTP email sent: ", info.response);
-
+  // console.log("Email Username:", process.env.EMAIL_USERNAME);
+  // console.log("Email Password:", process.env.EMAIL_PASSWORD);
     return res.status(200).json({ message: "OTP sent successfully" });
   } catch (error) {
     console.error("Error in forgotPassword:", error);
@@ -162,9 +163,45 @@ const loginUser = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
+const getInTouch = async (req, res) => {
+  try {
+    const { name, email, subject, message } = req.body;
+
+    if (!name || !email || !subject || !message) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    // Sending email using Nodemailer (optional)
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    let mailOptions = {
+      from: email,
+      to: process.env.EMAIL_USERNAME, // Your email
+      subject: `New Contact Form Submission - ${subject}`,
+      text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+    };
+  console.log("Email Username:", process.env.EMAIL_USERNAME);
+  console.log("Email Password:", process.env.EMAIL_PASSWORD);
+
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({ success: "Message sent successfully!" });
+  } catch (error) {
+    console.error("Error sending message:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 module.exports = {
   registerUser,
   forgotPassword,
   resetPassword,
   loginUser,
+  getInTouch,
 };
