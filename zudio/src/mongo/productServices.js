@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Load API base URL from environment variables
 const API_URL = import.meta.env.VITE_API_URL; // Fallback for local dev
-
+console.log("API URL:", API_URL);
 // Axios instance with default configuration
 const api = axios.create({
   baseURL: API_URL,
