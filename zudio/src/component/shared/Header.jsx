@@ -88,19 +88,22 @@ const Header = () => {
             <CiSearch />
           </button>
           {searchOpen && (
-            <form
+       <form
               onSubmit={handleSearchSubmit}
-              className="absolute top-10 left-1/2 transform -translate-x-1/2 bg-white border border-gray-300 shadow-md p-2 rounded-md flex items-center space-x-2"
+              className="fixed top-14 left-1/2 transform -translate-x-1/2 bg-white border border-gray-300 shadow-lg p-3 flex items-center space-x-2 w-full sm:w-[90vw] md:max-w-lg rounded-lg transition-all duration-300 z-50"
             >
               <input
                 type="text"
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="p-2 border rounded-md outline-none w-60"
+                className="p-3 w-full border-none outline-none bg-transparent text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-blue-400 rounded-md"
               />
-              <button type="submit" className="text-gray-600 hover:text-black">
-                <CiSearch size={24} />
+              <button
+                type="submit"
+                className="text-gray-500 hover:text-blue-500 transition duration-300"
+              >
+                <CiSearch size={28} />
               </button>
             </form>
           )}
