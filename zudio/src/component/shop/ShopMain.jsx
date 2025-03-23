@@ -401,7 +401,7 @@ import DesktopShopSideBar from "./DesktopShopSideBar";
 import MobileShopSideBar from "./MobileShopSideBar";
 import ProductCategories from "./ProductCategories";
 import { getProducts, searchProductsByName } from "../../mongo/productServices";
-
+import {Link} from "react-router-dom"
 const ShopMain = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [productsToShow, setProductsToShow] = useState(9);
@@ -443,11 +443,14 @@ const ShopMain = () => {
       <div className="font-semibold text-3xl lg:text-5xl flex justify-center items-center mt-12 lg:mt-16">
         Shop
       </div>
+      <p className="text-sm text-gray-500 cursor-pointer text-center pt-2">
+        <Link to="/" className="font-medium text-gray-800">Home</Link> / Contact Us
+      </p>
 
       {/* Mobile Sidebar Toggle */}
       <button
         onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
-        className="lg:hidden bg-blue-500 text-white px-4 py-2 rounded-md mt-4"
+        className="lg:hidden bg-black text-white px-4 py-2 mt-4"
       >
         {isMobileSidebarOpen ? "Close Menu" : "Open Menu"}
       </button>
@@ -499,7 +502,7 @@ const ShopMain = () => {
 
           {/* Pagination Controls */}
           {!searchQuery && totalPages > 1 && (
-            <div className="flex justify-center mt-4">
+            <div className="flex justify-center mt-4 mb-5">
               <button
                 onClick={() => setCurrentPage(currentPage - 1)}
                 disabled={currentPage === 1}
