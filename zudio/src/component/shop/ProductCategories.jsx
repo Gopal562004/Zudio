@@ -38,7 +38,7 @@ const ProductCategories = ({ products }) => {
             <div className="p-2">
               <div className="font-bold text-sm">{product.name}</div>
               <div className="text-gray-600 text-sm">{product.category}</div>
-              <div className="font-semibold text-sm mt-2">${product.price}</div>
+              <div className="font-semibold text-sm">${product.price}</div>
             </div>
           </div>
         ))}
