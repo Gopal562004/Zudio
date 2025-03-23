@@ -65,7 +65,7 @@ const LatestProduct = () => {
           observer.disconnect();
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 } // Lowered threshold for mobile
     );
     if (ref.current) {
       observer.observe(ref.current);
@@ -91,6 +91,7 @@ const LatestProduct = () => {
       transition={{ duration: 1 }}
       className="p-4 mx-4 sm:mx-12 lg:mx-28 flex flex-col"
     >
+      {/* Title Section */}
       <div className="text-center mb-8">
         <h2 className="text-sm text-gray-500 uppercase tracking-wider">
           Latest Product
@@ -98,34 +99,42 @@ const LatestProduct = () => {
         <h1 className="text-4xl font-medium">New Arrivals</h1>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-1 gap-y-5">
+      {/* Product Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-2 gap-y-5">
         {productData.map((product, index) => (
           <motion.div
             key={index}
-            className="relative w-full sm:w-[90%] md:w-[80%] lg:w-full h-[400px] transition-opacity duration-1000 mx-auto"
+            className="relative w-full sm:w-[95%] md:w-[90%] lg:w-full h-[350px] md:h-[400px] transition-opacity duration-1000 mx-auto"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: index * 0.2 }}
           >
+            {/* Product Image */}
             <img
               src={product.img}
               alt={product.name}
-              className="w-full h-[80%] object-cover"
+              className="w-full h-[80%] max-h-[250px] md:max-h-[300px] object-cover"
             />
-            <div className="absolute bottom-0 left-0 w-full p-4 bg-white bg-opacity-75">
+            {/* Product Details */}
+            <div className="absolute bottom-0 left-0 w-full p-3 bg-white bg-opacity-85">
               <div className="text-left">
-                <p className="text-sm leading-3">{product.category}</p>
-                <p className="text-sm font-medium leading-7">{product.name}</p>
-                <p className="text-sm">{product.price}</p>
+                <p className="text-xs sm:text-sm leading-3 text-gray-500">
+                  {product.category}
+                </p>
+                <p className="text-sm sm:text-md font-medium leading-5 truncate">
+                  {product.name}
+                </p>
+                <p className="text-sm font-semibold">{product.price}</p>
               </div>
             </div>
           </motion.div>
         ))}
       </div>
 
+      {/* Show More Button */}
       <div className="flex justify-center mt-8">
         <motion.div
-          className="text-center text-sm border-black bg-white hover:text-white hover:bg-black border p-2 cursor-pointer rounded-md transition-colors duration-300"
+          className="text-center text-sm border-black bg-white hover:text-white hover:bg-black border px-4 py-2 cursor-pointer rounded-md transition-colors duration-300"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.2 }}
