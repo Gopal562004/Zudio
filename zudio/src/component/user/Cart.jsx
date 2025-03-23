@@ -55,9 +55,9 @@ const Cart = () => {
       <h1 className="text-2xl font-bold border-b pb-3">MY SHOPPING BAG</h1>
 
       {/* Cart Layout */}
-      <div className="grid grid-cols-3 gap-8 mt-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
         {/* Product List */}
-        <div className="col-span-2">
+        <div className="lg:col-span-2">
           {loading ? (
             <p className="text-gray-500">Loading cart...</p>
           ) : cart.items.length === 0 ? (
@@ -66,17 +66,17 @@ const Cart = () => {
             cart.items.map((item) => (
               <div
                 key={item._id}
-                className="flex items-center justify-between border-b py-4"
+                className="flex flex-col sm:flex-row items-center justify-between border-b py-4"
               >
                 {/* Product Image */}
                 <img
                   src={item.product.images[0]}
                   alt={item.product.name}
-                  className="w-20 h-20 object-cover"
+                  className="w-20 h-20 object-cover mb-4 sm:mb-0"
                 />
 
                 {/* Product Details */}
-                <div className="flex flex-col flex-1 px-4">
+                <div className="flex flex-col flex-1 text-center sm:text-left px-4">
                   <h2 className="text-lg font-semibold">{item.product.name}</h2>
                   <p className="text-gray-500 text-sm">
                     Category: {item.product.category}
@@ -86,11 +86,11 @@ const Cart = () => {
                 </div>
 
                 {/* Price & Quantity Controls */}
-                <div className="flex items-center space-x-4">
+                <div className="flex flex-col sm:flex-row items-center space-x-4">
                   <p className="font-semibold">
                     ${item.product.price.toFixed(2)}
                   </p>
-                  <div className="flex items-center">
+                  <div className="flex items-center space-x-2">
                     <button
                       onClick={() =>
                         handleDecreaseQuantity(item._id, item.quantity)
@@ -111,7 +111,7 @@ const Cart = () => {
                   </div>
                   <button
                     onClick={() => handleRemoveItem(item._id)}
-                    className="text-red-500 hover:underline"
+                    className="text-red-500 hover:underline mt-2 sm:mt-0"
                   >
                     Remove
                   </button>
@@ -122,7 +122,7 @@ const Cart = () => {
         </div>
 
         {/* Order Summary */}
-        <div className="bg-gray-100 p-6">
+        <div className="bg-gray-100 p-6 rounded-lg shadow-md">
           <h2 className="text-lg font-bold border-b pb-2">SUMMARY</h2>
 
           {/* Coupon Code */}
