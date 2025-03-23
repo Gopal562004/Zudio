@@ -122,7 +122,7 @@ const Cart = () => {
         </div>
 
         {/* Order Summary */}
-        <div className="bg-gray-100 p-6 rounded-lg shadow-md">
+        <div className="bg-gray-100 p-6">
           <h2 className="text-lg font-bold border-b pb-2">SUMMARY</h2>
 
           {/* Coupon Code */}
