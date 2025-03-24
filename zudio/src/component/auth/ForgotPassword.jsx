@@ -47,6 +47,9 @@ const ForgotPassword = () => {
           console.log("Password reset successfully!");
           setLoading(false);
           toast.success("Password reset successfully!"); // Toastify success message
+           setTimeout(() => {
+            navigate("/auth/login");
+          }, 2000);
         } catch (err) {
           setLoading(false);
           setError("Error resetting password. Please try again.");
