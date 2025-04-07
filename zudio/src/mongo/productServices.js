@@ -35,13 +35,28 @@ export const getProducts = async (
   category = "",
   search = "",
   minPrice = 0,
-  maxPrice = 10000
+  maxPrice = 10000,
+  color = "",
+  filterSize = "",
+  tags = ""
 ) => {
   try {
     const response = await api.get("/products", {
-      params: { page, size, sort, category, search, minPrice, maxPrice },
+      params: {
+        page,
+        size,
+        sort,
+        category,
+        search,
+        minPrice,
+        maxPrice,
+        color,
+        size: filterSize, // use 'size' param in query, but variable is 'filterSize'
+        tags,
+      },
     });
-    return response.data;
+
+    return response.data; // expects response to include { products, totalPages }
   } catch (error) {
     throw new Error(error.response?.data?.message || "Error fetching products");
   }
