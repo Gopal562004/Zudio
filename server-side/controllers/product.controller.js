@@ -90,6 +90,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 });
 
 // Get all products (Accessible by all users)
+
 const getProducts = asyncHandler(async (req, res) => {
   const {
     page = 1,
@@ -99,40 +100,49 @@ const getProducts = asyncHandler(async (req, res) => {
     search,
     minPrice,
     maxPrice,
+    color,
+    size: filterSize,
+    tags,
   } = req.query;
 
+  const pageNum = Number(page) || 1;
+  const sizeNum = Number(size) || 9;
+
   const filter = {};
-  if (category) {
-    filter.category = category;
-  }
-  if (search) {
-    filter.name = { $regex: search, $options: "i" }; // Case-insensitive search by name
-  }
-  if (minPrice && maxPrice) {
-    filter.price = { $gte: minPrice, $lte: maxPrice };
-  }
+
+  if (category) filter.category = { $in: category.split(",") };
+  if (search) filter.name = { $regex: search, $options: "i" };
+  if (minPrice && maxPrice)
+    filter.price = { $gte: Number(minPrice), $lte: Number(maxPrice) };
+  if (color) filter.color = { $in: color.split(",") };
+  if (filterSize) filter.size = { $in: filterSize.split(",") };
+  if (tags) filter.tags = { $in: tags.split(",") };
 
   const sortOptions = {};
-  if (sort === "price_asc") {
-    sortOptions.price = 1; // Ascending order
-  } else if (sort === "price_desc") {
-    sortOptions.price = -1; // Descending order
-  }
+  if (sort === "price_asc") sortOptions.price = 1;
+  else if (sort === "price_desc") sortOptions.price = -1;
+  else sortOptions.createdAt = -1; // Default: newest first
 
   try {
     const products = await Product.find(filter)
       .sort(sortOptions)
-      .skip((page - 1) * size)
-      .limit(size);
+      .skip((pageNum - 1) * sizeNum)
+      .limit(sizeNum); // ✅ Correctly apply limit
 
-    const count = await Product.countDocuments(filter);
-    res.status(200).json({ products, page, pages: Math.ceil(count / size) });
+    const total = await Product.countDocuments(filter);
+    const totalPages = Math.ceil(total / sizeNum); // ✅ Include this if needed
+
+    console.log("Final limit used:", sizeNum); // ✅ Confirm correct value
+
+    res.status(200).json({ products, total, totalPages });
   } catch (error) {
     res
       .status(500)
       .json({ message: "Error fetching products", error: error.message });
   }
 });
+
+
 
 // Get product by ID (Accessible by all users)
 const getProductById = asyncHandler(async (req, res) => {
