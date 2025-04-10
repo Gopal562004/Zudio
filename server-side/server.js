@@ -18,11 +18,18 @@ const app = express();
 
 // Middleware
 //app.use(cors());
-//app.use(cors());
+const allowedOrigins = ['https://zudio-seven.vercel.app']; // ✅ your frontend domain
+
 app.use(
   cors({
-    origin: "https://zudio-seven.vercel.app", // ✅ Production frontend
-    credentials: true, // ✅ Allow sending cookies/headers
+    origin: function (origin, callback) {
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true, // ✅ allow cookies, auth headers
   })
 );
 app.use(express.json());
