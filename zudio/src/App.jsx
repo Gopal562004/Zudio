@@ -178,6 +178,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Toaster } from "react-hot-toast";
