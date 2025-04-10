@@ -18,7 +18,13 @@ const app = express();
 
 // Middleware
 //app.use(cors());
-app.use(cors());
+//app.use(cors());
+app.use(
+  cors({
+    origin: "https://zudio-seven.vercel.app", // ✅ Production frontend
+    credentials: true, // ✅ Allow sending cookies/headers
+  })
+);
 app.use(express.json());
 
 // Routes
