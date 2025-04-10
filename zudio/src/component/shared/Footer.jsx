@@ -134,14 +134,26 @@ const Footer = () => {
               © 2024 Zudio. All rights reserved. Designed by Novaworks.
             </p>
             <div className="flex space-x-3 justify-center">
-              <img src="/path/to/amazon.png" alt="Amazon" className="h-5" />
               <img
-                src="/path/to/amex.png"
+                src="https://thumbs.dreamstime.com/b/amazon-logo-editorial-illustrative-white-background-eps-download-vector-jpeg-banner-ai-amazon-logo-editorial-illustrative-208329107.jpg"
+                alt="Amazon"
+                className="h-5"
+              />
+              <img
+                src="https://seeklogo.com/images/A/american-express-logo-11083BBC97-seeklogo.com.png"
                 alt="American Express"
                 className="h-5"
               />
-              <img src="/path/to/paypal.png" alt="PayPal" className="h-5" />
-              <img src="/path/to/delivery.png" alt="Delivery" className="h-5" />
+              <img
+                src="https://i.pinimg.com/736x/8d/e0/97/8de097c07e08973cca9f0b2eeb62fcc2.jpg"
+                alt="PayPal"
+                className="h-5"
+              />
+              <img
+                src="https://i.pinimg.com/originals/2e/f2/f3/2ef2f3289430a49cfbd483bf44dd2f17.jpg"
+                alt="Delivery"
+                className="h-5"
+              />
             </div>
           </div>
         </div>
