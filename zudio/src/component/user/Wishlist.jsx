@@ -56,7 +56,7 @@ const handleProductClick = (product) => {
               className="relative bg-white p-1 transition"
             >
               <img
-                onClick={() => handleProductClick(product)}
+                
                 src={product.images[0]} // First image
                 alt={product.name}
                 className="w-full h-80 object-cover transition-transform duration-300 ease-in-out transform hover:scale-110"
@@ -64,7 +64,7 @@ const handleProductClick = (product) => {
 
               {/* Show second image on hover */}
               <img
-                onClick={() => handleProductClick(product)}
+          
                 src={product.images[1]} // Second image
                 alt={product.name}
                 className="absolute inset-0 w-full h-80 object-cover opacity-0 transition-opacity duration-300 ease-in-out hover:opacity-100"
