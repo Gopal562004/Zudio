@@ -165,7 +165,7 @@ const ShopMain = () => {
           )}
 
           {totalPages > 1 && (
-            <div className="flex justify-center mt-6 flex-wrap gap-2">
+            <div className="flex justify-center mt-6 mb-6 flex-wrap gap-2">
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
