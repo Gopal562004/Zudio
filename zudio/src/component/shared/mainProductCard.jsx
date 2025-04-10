@@ -370,7 +370,7 @@ const handleToggleWishlist = async (productId) => {
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <div className="mt-10">
-            <h2 className="text-5xl font-normal font-montserrat mb-4 text-center lg:mb-24">
+            <h2 className=" text-2xl lg:text-5xl lg:font-normal font-montserrat mb-4 text-center lg:mb-24">
               Related Products
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-1">
