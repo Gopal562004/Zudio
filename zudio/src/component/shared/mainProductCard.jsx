@@ -153,11 +153,16 @@
 
 // export default MainProductCard;
 import React, { useState, useEffect } from "react";
+import { FaHeart, FaRegHeart } from "react-icons/fa"; // at top
 import { useLocation, useParams, useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { addItemToCart, updateCartItem } from "../../mongo/cartServices";
 import { getProducts } from "../../mongo/productServices";
-
+import {
+  getWishlist,
+  addToWishlist,
+  removeFromWishlist,
+} from "../../mongo/wishlistServices";
 const MainProductCard = () => {
   const { productId } = useParams();
   const location = useLocation();
@@ -185,7 +190,7 @@ const MainProductCard = () => {
   const [quantity, setQuantity] = useState(1);
   const [isInCart, setIsInCart] = useState(false);
   const [relatedProducts, setRelatedProducts] = useState([]);
-
+const [wishlist, setWishlist] = useState([]);
  useEffect(() => {
    const fetchRelated = async () => {
      try {
@@ -242,6 +247,26 @@ const MainProductCard = () => {
     navigate("/checkout", { state: { product, quantity } });
   };
 
+const handleToggleWishlist = async (productId) => {
+  try {
+    const isWishlisted = wishlist.some((item) => item._id === productId);
+
+    if (isWishlisted) {
+      await removeFromWishlist(productId);
+      setWishlist((prev) => prev.filter((item) => item._id !== productId));
+      toast.info("Removed from wishlist ❤️‍🩹");
+    } else {
+      const newItem = await addToWishlist(productId);
+      setWishlist((prev) => [...prev, newItem]);
+      toast.success("Added to wishlist ❤️");
+    }
+  } catch (error) {
+    console.error("Error toggling wishlist:", error);
+    toast.error("Something went wrong while updating wishlist.");
+  }
+};
+
+
   return (
     <div>
       <div className="max-w-5xl mx-auto p-4">
@@ -257,11 +282,25 @@ const MainProductCard = () => {
 
         <div className="flex flex-col md:flex-row gap-6">
           {/* Product Images */}
-          <div className="flex-1">
+
+          <div className="flex-1 relative">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleToggleWishlist(product._id);
+              }}
+              className="absolute top-2 right-2 z-10 bg-white/80 p-2 rounded-full transition text-lg"
+            >
+              {wishlist.some((item) => item._id === product._id) ? (
+                <FaHeart className="text-red-500" />
+              ) : (
+                <FaRegHeart className="text-gray-500 hover:text-red-500" />
+              )}
+            </button>
             <img
               src={product.images[0]}
               alt={product.name}
-              className="w-full h-96 object-cover rounded-lg"
+              className="w-full h-auto object-cover"
             />
             <div className="flex mt-2 gap-2">
               {product.images.map((img, index) => (
@@ -269,12 +308,11 @@ const MainProductCard = () => {
                   key={index}
                   src={img}
                   alt={`Thumbnail ${index}`}
-                  className="w-16 h-16 object-cover rounded-lg cursor-pointer"
+                  className="w-16 h-16 object-cover  cursor-pointer"
                 />
               ))}
             </div>
           </div>
-
           {/* Product Details */}
           <div className="flex-1">
             <h1 className="text-2xl font-bold">{product.name}</h1>
@@ -332,21 +370,36 @@ const MainProductCard = () => {
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <div className="mt-10">
-            <h2 className="text-2xl font-bold mb-4">Related Products</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <h2 className="text-5xl font-normal font-montserrat mb-4 text-center lg:mb-24">
+              Related Products
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-1">
               {relatedProducts.map((item) => (
                 <Link
                   to={`/product/${item._id}`}
                   state={{ product: item }}
                   key={item._id}
-                  className="border p-2 hover:shadow-lg transition"
+                  className="p-2 transition group"
                 >
-                  <img
-                    src={item.images?.[0]}
-                    alt={item.name}
-                    className="w-full h-48 object-cover "
-                  />
-                  <h3 className="mt-2 text-lg font-semibold">{item.name}</h3>
+                  <div className="relative w-full aspect-[4/3] overflow-hidden lg:h-80">
+                    {/* Default Image */}
+                    <img
+                      src={item.images?.[0]}
+                      alt={item.name}
+                      className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-0"
+                    />
+                    {/* Hover Image */}
+                    {item.images?.[1] && (
+                      <img
+                        src={item.images[1]}
+                        alt={`${item.name} alternate`}
+                        className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                      />
+                    )}
+                  </div>
+                  <h3 className="mt-2 text-lg font-semibold font-montserrat">
+                    {item.name}
+                  </h3>
                   <p className="text-sm text-gray-600">{item.brand}</p>
                   <p className="text-sm font-bold text-black">${item.price}</p>
                 </Link>
