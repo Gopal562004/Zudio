@@ -33,6 +33,12 @@ const UserSchema = new mongoose.Schema(
           "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
       },
     },
+    wishlist: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
     role: {
       type: String,
       enum: ["customer", "admin"],
