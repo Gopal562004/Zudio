@@ -18,12 +18,7 @@ const app = express();
 
 // Middleware
 //app.use(cors());
-app.use(
-  cors({
-    origin: "http://localhost:5174", // your frontend URL
-    credentials: true, // allow cookies or authorization headers
-  })
-);
+app.use(cors());
 app.use(express.json());
 
 // Routes
