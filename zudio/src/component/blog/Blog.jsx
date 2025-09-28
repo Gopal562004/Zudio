@@ -5,6 +5,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { Link } from "react-router-dom";
 
 // Sample blog posts (replace with API data if available)
 const blogPosts = [
@@ -93,8 +94,13 @@ const Blog = () => {
           Blog & Insights
         </h2>
         <h1 className="text-4xl font-semibold">Latest Articles</h1>
+        <p className="text-sm text-gray-500 cursor-pointer text-center pt-2">
+          <Link to="/" className="font-medium text-gray-800">
+            Home
+          </Link>{" "}
+          / Blog
+        </p>
       </motion.div>
-
       {/* Blog Post Grid */}
       <motion.div
         initial={{ opacity: 0 }}
