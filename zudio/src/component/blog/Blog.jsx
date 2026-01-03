@@ -6,6 +6,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Link } from "react-router-dom";
+import { ChevronRight } from "lucide-react";
 
 // Sample blog posts (replace with API data if available)
 const blogPosts = [
@@ -81,7 +82,7 @@ const Blog = () => {
   }, [inView, controls]);
 
   return (
-    <div className="min-h-screen bg-customGray1 py-12 px-4 md:px-16 lg:px-32">
+    <div className="min-h-screen bg-white py-12 px-4 md:px-16 lg:px-32">
       {/* Page Header */}
       <motion.div
         ref={sectionRef}
@@ -93,13 +94,14 @@ const Blog = () => {
         <h2 className="text-sm text-gray-500 uppercase tracking-wider mb-2">
           Blog & Insights
         </h2>
-        <h1 className="text-4xl font-semibold">Latest Articles</h1>
-        <p className="text-sm text-gray-500 cursor-pointer text-center pt-2">
-          <Link to="/" className="font-medium text-gray-800">
+        <h1 className="text-4xl font-semibold mb-4">Latest Articles</h1>
+        <nav className="flex items-center justify-center space-x-1 text-xs sm:text-sm">
+          <Link to="/" className="text-gray-500 hover:text-black transition">
             Home
-          </Link>{" "}
-          / Blog
-        </p>
+          </Link>
+          <ChevronRight className="w-3 h-3 text-gray-300" />
+          <span className="text-black font-sm">Blog</span>
+        </nav>
       </motion.div>
       {/* Blog Post Grid */}
       <motion.div
