@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Minimalist sharp Swiper navigation buttons (replaces default big blue arrows) */
+.swiper-button-prev,
+.swiper-button-next {
+  width: 34px !important;
+  height: 34px !important;
+  background-color: rgba(255, 255, 255, 0.92);
+  color: #111111 !important;
+  border: 1px solid #e5e5e5;
+  border-radius: 0 !important;
+  --swiper-navigation-size: 13px;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background-color: #111111;
+  color: #ffffff !important;
+  border-color: #111111;
+}
+
+@media (max-width: 640px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 28px !important;
+    height: 28px !important;
+    --swiper-navigation-size: 11px;
+  }
+}

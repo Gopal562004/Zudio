@@ -1,160 +1,245 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight, Check, Instagram, Facebook, Twitter, Mail } from "lucide-react";
+import toast from "react-hot-toast";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault();
+    const trimmed = email.trim();
+    if (!trimmed || !trimmed.includes("@")) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+    setSubscribed(true);
+    setEmail("");
+    toast.success("Subscribed! Use code ZUDIO10 for 10% off.");
+  };
+
   return (
-    <footer className="bg-black text-white py-8">
-      <div className="mx-4 md:mx-28">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-between">
-            {/* Zudio Branding */}
-            <div className="w-full lg:w-1/3 mb-6">
-              <h2 className="text-lg md:text-xl font-bold mb-3">Zudio</h2>
-              <p className="text-gray-400 text-xs md:text-sm mb-4">
-                Whether you're a trendsetter, a minimalist, or an adventurer at
-                heart, Zudio has something for everyone. Our diverse range of
-                styles caters to various personas.
-              </p>
-              <div className="flex space-x-3">
-                <a href="#" aria-label="Facebook" className="text-sm">
-                  <i className="fab fa-facebook-f"></i>
-                </a>
-                <a href="#" aria-label="Twitter" className="text-sm">
-                  <i className="fab fa-twitter"></i>
-                </a>
-                <a href="#" aria-label="Instagram" className="text-sm">
-                  <i className="fab fa-instagram"></i>
-                </a>
-                <a href="#" aria-label="Pinterest" className="text-sm">
-                  <i className="fab fa-pinterest"></i>
-                </a>
-              </div>
-            </div>
-
-            {/* Footer Links */}
-            <div className="w-full lg:w-2/3 flex flex-wrap justify-between">
-              {/* Column 1 */}
-              <div className="w-1/2 md:w-1/4 mb-6">
-                <h3 className="font-bold text-sm mb-3">About Us</h3>
-                <ul className="space-y-1 text-gray-400 text-xs">
-                  <li>
-                    <a href="#">Our Story</a>
-                  </li>
-                  <li>
-                    <a href="#">Mission & Values</a>
-                  </li>
-                  <li>
-                    <a href="#">Meet the Team</a>
-                  </li>
-                  <li>
-                    <a href="#">Sustainability Efforts</a>
-                  </li>
-                  <li>
-                    <a href="#">Brand Partnerships</a>
-                  </li>
-                  <li>
-                    <a href="#">Influencer Collaborations</a>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Column 2 */}
-              <div className="w-1/2 md:w-1/4 mb-6">
-                <h3 className="font-bold text-sm mb-3">Accessibility</h3>
-                <ul className="space-y-1 text-gray-400 text-xs">
-                  <li>
-                    <a href="#">Accessibility Statement</a>
-                  </li>
-                  <li>
-                    <a href="#">Site Map</a>
-                  </li>
-                  <li>
-                    <a href="#">Web Accessibility</a>
-                  </li>
-                  <li>
-                    <a href="#">ADA Compliance</a>
-                  </li>
-                  <li>
-                    <a href="#">Privacy Policy</a>
-                  </li>
-                  <li>
-                    <a href="#">Terms of Service</a>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Column 3 */}
-              <div className="w-1/2 md:w-1/4 mb-6">
-                <h3 className="font-bold text-sm mb-3">Join Our Community</h3>
-                <ul className="space-y-1 text-gray-400 text-xs">
-                  <li>
-                    <a href="#">VIP Membership</a>
-                  </li>
-                  <li>
-                    <a href="#">Loyalty Program</a>
-                  </li>
-                  <li>
-                    <a href="#">Customer Reviews</a>
-                  </li>
-                  <li>
-                    <a href="#">Style Forums</a>
-                  </li>
-                  <li>
-                    <a href="#">Job Openings</a>
-                  </li>
-                  <li>
-                    <a href="#">Culture and Values</a>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Newsletter */}
-              <div className="w-full md:w-1/4 mb-6">
-                <h3 className="font-bold text-sm mb-3">Let's get in touch</h3>
-                <p className="text-gray-400 text-xs mb-3">
-                  Sign up for our newsletter and receive 10% off your first
-                  purchase.
-                </p>
-                <div className="flex">
-                  <input
-                    type="email"
-                    placeholder="Enter your email address..."
-                    className="p-2 rounded-l bg-gray-700 text-white text-xs focus:outline-none"
-                  />
-                  <button className="p-2 bg-gray-600 rounded-r text-xs">
-                    <i className="fas fa-arrow-right"></i>
-                  </button>
-                </div>
-              </div>
+    <footer className="bg-black text-white border-t border-neutral-800">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
+          {/* Zudio Branding */}
+          <div className="lg:col-span-4 space-y-4">
+            <Link to="/" className="inline-block">
+              <h2 className="text-2xl font-serif tracking-wide text-white">
+                Zudio
+              </h2>
+            </Link>
+            <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed max-w-sm">
+              Whether you're a trendsetter, a minimalist, or an adventurer at
+              heart, Zudio has something for everyone. Everyday fashion crafted
+              for modern style.
+            </p>
+            <div className="flex items-center gap-3 pt-1">
+              <Link
+                to="/shop"
+                aria-label="Instagram"
+                className="p-2 border border-neutral-800 text-neutral-400 hover:text-white hover:border-white transition-colors"
+              >
+                <Instagram className="w-4 h-4" />
+              </Link>
+              <Link
+                to="/shop"
+                aria-label="Facebook"
+                className="p-2 border border-neutral-800 text-neutral-400 hover:text-white hover:border-white transition-colors"
+              >
+                <Facebook className="w-4 h-4" />
+              </Link>
+              <Link
+                to="/blog"
+                aria-label="Twitter"
+                className="p-2 border border-neutral-800 text-neutral-400 hover:text-white hover:border-white transition-colors"
+              >
+                <Twitter className="w-4 h-4" />
+              </Link>
+              <Link
+                to="/contact-us"
+                aria-label="Email Us"
+                className="p-2 border border-neutral-800 text-neutral-400 hover:text-white hover:border-white transition-colors"
+              >
+                <Mail className="w-4 h-4" />
+              </Link>
             </div>
           </div>
 
-          {/* Footer Bottom */}
-          <div className="border-t border-gray-700 mt-6 pt-4 flex flex-col sm:flex-row justify-between items-center text-xs">
-            <p className="text-gray-400 text-center sm:text-left mb-4 sm:mb-0">
-              © 2024 Zudio. All rights reserved. Designed by Novaworks.
+          {/* Shop Links */}
+          <div className="lg:col-span-2">
+            <h3 className="text-xs uppercase tracking-[0.2em] font-semibold text-white mb-4">
+              Shop
+            </h3>
+            <ul className="space-y-2 text-neutral-400 text-xs sm:text-sm">
+              <li>
+                <Link to="/shop?tags=New" className="hover:text-white transition">
+                  New Arrivals
+                </Link>
+              </li>
+              <li>
+                <Link to="/shop?category=Women" className="hover:text-white transition">
+                  Women
+                </Link>
+              </li>
+              <li>
+                <Link to="/shop?category=Men" className="hover:text-white transition">
+                  Men
+                </Link>
+              </li>
+              <li>
+                <Link to="/shop?category=Hoodies" className="hover:text-white transition">
+                  Hoodies
+                </Link>
+              </li>
+              <li>
+                <Link to="/shop?category=Jackets" className="hover:text-white transition">
+                  Jackets
+                </Link>
+              </li>
+              <li>
+                <Link to="/shop?category=Bags" className="hover:text-white transition">
+                  Bags & Carry
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Explore & Support */}
+          <div className="lg:col-span-2">
+            <h3 className="text-xs uppercase tracking-[0.2em] font-semibold text-white mb-4">
+              Explore
+            </h3>
+            <ul className="space-y-2 text-neutral-400 text-xs sm:text-sm">
+              <li>
+                <Link to="/shop" className="hover:text-white transition">
+                  All Products
+                </Link>
+              </li>
+              <li>
+                <Link to="/shop?tags=Popular" className="hover:text-white transition">
+                  Best Sellers
+                </Link>
+              </li>
+              <li>
+                <Link to="/shop?tags=Limited" className="hover:text-white transition">
+                  Limited Drops
+                </Link>
+              </li>
+              <li>
+                <Link to="/blog" className="hover:text-white transition">
+                  Style Blog
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact-us" className="hover:text-white transition">
+                  Contact Us
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Account Links */}
+          <div className="lg:col-span-2">
+            <h3 className="text-xs uppercase tracking-[0.2em] font-semibold text-white mb-4">
+              Account
+            </h3>
+            <ul className="space-y-2 text-neutral-400 text-xs sm:text-sm">
+              <li>
+                <Link to="/profile" className="hover:text-white transition">
+                  My Profile
+                </Link>
+              </li>
+              <li>
+                <Link to="/cart" className="hover:text-white transition">
+                  Shopping Cart
+                </Link>
+              </li>
+              <li>
+                <Link to="/profile/wishlist" className="hover:text-white transition">
+                  Wishlist
+                </Link>
+              </li>
+              <li>
+                <Link to="/auth/login" className="hover:text-white transition">
+                  Login
+                </Link>
+              </li>
+              <li>
+                <Link to="/auth/signup" className="hover:text-white transition">
+                  Create Account
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Newsletter */}
+          <div className="lg:col-span-2">
+            <h3 className="text-xs uppercase tracking-[0.2em] font-semibold text-white mb-4">
+              Newsletter
+            </h3>
+            <p className="text-neutral-400 text-xs leading-relaxed mb-3">
+              Sign up for early drop access and receive 10% off your first
+              order.
             </p>
-            <div className="flex space-x-3 justify-center">
-              <img
-                src="https://thumbs.dreamstime.com/b/amazon-logo-editorial-illustrative-white-background-eps-download-vector-jpeg-banner-ai-amazon-logo-editorial-illustrative-208329107.jpg"
-                alt="Amazon"
-                className="h-5"
-              />
-              <img
-                src="https://seeklogo.com/images/A/american-express-logo-11083BBC97-seeklogo.com.png"
-                alt="American Express"
-                className="h-5"
-              />
-              <img
-                src="https://i.pinimg.com/736x/8d/e0/97/8de097c07e08973cca9f0b2eeb62fcc2.jpg"
-                alt="PayPal"
-                className="h-5"
-              />
-              <img
-                src="https://i.pinimg.com/originals/2e/f2/f3/2ef2f3289430a49cfbd483bf44dd2f17.jpg"
-                alt="Delivery"
-                className="h-5"
-              />
-            </div>
+            {subscribed ? (
+              <div className="flex items-center gap-2 p-2.5 bg-neutral-900 border border-neutral-700 text-xs text-white">
+                <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                <span>Code: <strong className="font-mono">ZUDIO10</strong></span>
+              </div>
+            ) : (
+              <form onSubmit={handleNewsletterSubmit} className="flex">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email address..."
+                  className="w-full min-w-0 px-3 py-2 bg-neutral-900 border border-neutral-700 text-white text-xs placeholder:text-neutral-500 focus:outline-none focus:border-white rounded-none"
+                />
+                <button
+                  type="submit"
+                  aria-label="Subscribe"
+                  className="px-3 py-2 bg-white text-black hover:bg-neutral-200 transition-colors rounded-none flex-shrink-0 cursor-pointer"
+                >
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+
+        {/* Footer Bottom */}
+        <div className="border-t border-neutral-800 mt-10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
+          <p className="text-neutral-500 text-center sm:text-left">
+            © {new Date().getFullYear()} Zudio. All rights reserved.
+          </p>
+
+          {/* Clean Inline Payment Badges */}
+          <div className="flex items-center gap-2">
+            <svg role="img" aria-label="Visa" viewBox="0 0 48 30" className="h-5 w-auto">
+              <rect width="48" height="30" rx="2" fill="#171717" stroke="#333" />
+              <text x="24" y="19" textAnchor="middle" fill="#FFFFFF" fontSize="10" fontWeight="bold" fontFamily="sans-serif">
+                VISA
+              </text>
+            </svg>
+            <svg role="img" aria-label="Mastercard" viewBox="0 0 48 30" className="h-5 w-auto">
+              <rect width="48" height="30" rx="2" fill="#171717" stroke="#333" />
+              <circle cx="19" cy="15" r="7" fill="#EB001B" />
+              <circle cx="29" cy="15" r="7" fill="#F79E1B" fillOpacity="0.9" />
+            </svg>
+            <svg role="img" aria-label="American Express" viewBox="0 0 48 30" className="h-5 w-auto">
+              <rect width="48" height="30" rx="2" fill="#006FCF" />
+              <text x="24" y="19" textAnchor="middle" fill="#FFFFFF" fontSize="10" fontWeight="bold" fontFamily="sans-serif">
+                AMEX
+              </text>
+            </svg>
+            <svg role="img" aria-label="UPI" viewBox="0 0 48 30" className="h-5 w-auto">
+              <rect width="48" height="30" rx="2" fill="#171717" stroke="#333" />
+              <text x="24" y="19" textAnchor="middle" fill="#FFFFFF" fontSize="10" fontWeight="bold" fontFamily="sans-serif">
+                UPI
+              </text>
+            </svg>
           </div>
         </div>
       </div>

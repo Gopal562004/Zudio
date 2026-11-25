@@ -68,10 +68,11 @@ const ProductCategories = ({ products, viewMode = "grid" }) => {
         animate="visible"
         className="space-y-3"
       >
-        {products.map((product, index) => (
+        {products.map((product) => (
           <motion.div
             key={product._id}
             variants={itemVariants}
+            onClick={() => handleProductClick(product)}
             className="flex flex-col sm:flex-row gap-4 p-3 border border-gray-100 hover:border-gray-300 transition cursor-pointer group"
             whileHover={{ y: -2, boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}
           >
@@ -230,19 +231,26 @@ const ShopMain = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get("query") || "";
   const [viewMode, setViewMode] = useState("grid");
 
-  const [filters, setFilters] = useState({
-    sort: "price_asc",
-    category: "",
-    minPrice: 0,
-    maxPrice: 10000,
-    color: "",
-    size: "",
-    tags: "",
+  const getFiltersFromParams = () => ({
+    sort: searchParams.get("sort") || "price_asc",
+    category: searchParams.get("category") || "",
+    minPrice: searchParams.get("minPrice") ? Number(searchParams.get("minPrice")) : 0,
+    maxPrice: searchParams.get("maxPrice") ? Number(searchParams.get("maxPrice")) : 10000,
+    color: searchParams.get("color") || "",
+    size: searchParams.get("size") || "",
+    tags: searchParams.get("tags") || "",
   });
+
+  const [filters, setFilters] = useState(getFiltersFromParams);
+
+  useEffect(() => {
+    setFilters(getFiltersFromParams());
+    setCurrentPage(1);
+  }, [searchParams]);
 
   const handleFilterChange = (incomingFilters) => {
     const updatedFilters = {

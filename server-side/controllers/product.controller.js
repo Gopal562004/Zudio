@@ -112,8 +112,14 @@ const getProducts = asyncHandler(async (req, res) => {
 
   if (category) filter.category = { $in: category.split(",") };
   if (search) filter.name = { $regex: search, $options: "i" };
-  if (minPrice && maxPrice)
+  if (
+    minPrice !== undefined &&
+    minPrice !== "" &&
+    maxPrice !== undefined &&
+    maxPrice !== ""
+  ) {
     filter.price = { $gte: Number(minPrice), $lte: Number(maxPrice) };
+  }
   if (color) filter.color = { $in: color.split(",") };
   if (filterSize) filter.size = { $in: filterSize.split(",") };
   if (tags) filter.tags = { $in: tags.split(",") };

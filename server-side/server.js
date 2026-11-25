@@ -1,3 +1,9 @@
+// Polyfill SlowBuffer removed in Node.js 25+ for legacy dependencies (e.g. buffer-equal-constant-time)
+const buffer = require("buffer");
+if (!buffer.SlowBuffer) {
+  buffer.SlowBuffer = buffer.Buffer;
+}
+
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
@@ -18,7 +24,7 @@ const app = express();
 
 // Middleware
 //app.use(cors());
-const allowedOrigins = ['https://zudio-seven.vercel.app']; // ✅ your frontend domain
+const allowedOrigins = ['https://zudio-seven.vercel.app','http://localhost:5174']; // ✅ your frontend domain
 
 app.use(
   cors({
