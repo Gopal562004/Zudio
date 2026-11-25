@@ -48,7 +48,7 @@ const ProductCategories = ({ products, viewMode = "grid" }) => {
             <div className="flex-1 min-w-0">
               <div className="flex justify-between items-start mb-1">
                 <h3 className="font-medium text-sm sm:text-base truncate">{product.name}</h3>
-                <span className="text-sm sm:text-base font-bold">${product.price}</span>
+                <span className="text-sm sm:text-base font-bold">₹{Number(product.price).toLocaleString("en-IN")}</span>
               </div>
               
               <p className="text-xs text-gray-500 mb-2">{product.brand}</p>
@@ -127,7 +127,7 @@ const ProductCategories = ({ products, viewMode = "grid" }) => {
             <h3 className="text-sm font-medium truncate">{product.name}</h3>
             <p className="text-xs text-gray-500 truncate">{product.brand}</p>
             <div className="flex items-center justify-between">
-              <span className="text-sm font-bold">${product.price}</span>
+              <span className="text-sm font-bold">₹{Number(product.price).toLocaleString("en-IN")}</span>
               <div className="flex items-center">
                 <Star className="w-3 h-3 fill-gray-300 stroke-gray-300" />
                 <span className="text-xs text-gray-500 ml-0.5">

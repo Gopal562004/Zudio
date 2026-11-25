@@ -10,7 +10,7 @@ const zudioProducts = [
     name: "Beige Ribbed Knit Sweater",
     description:
       "Soft heavyweight ribbed crewneck sweater crafted for everyday Zudio layering with a relaxed silhouette.",
-    price: 45.9,
+    price: 899,
     brand: "Zudio Studio",
     category: "Sweatshirts",
     size: ["S", "M", "L", "XL"],
@@ -25,7 +25,7 @@ const zudioProducts = [
     name: "Charcoal Oversized Hoodie",
     description:
       "Drop-shoulder fleece hoodie in brushed cotton blend with structured hood and kangaroo pocket.",
-    price: 49.99,
+    price: 999,
     brand: "Zudio Street",
     category: "Hoodies",
     size: ["S", "M", "L", "XL"],
@@ -40,7 +40,7 @@ const zudioProducts = [
     name: "Matte Black Technical Windbreaker",
     description:
       "Lightweight water-resistant zip windbreaker with high collar and clean utilitarian pockets.",
-    price: 64.9,
+    price: 1299,
     brand: "Zudio Urban",
     category: "Jackets",
     size: ["M", "L", "XL"],
@@ -55,7 +55,7 @@ const zudioProducts = [
     name: "Classic Washed Denim Jacket",
     description:
       "Timeless medium-wash indigo trucker jacket with contrast stitching and metal shank buttons.",
-    price: 74.5,
+    price: 1499,
     brand: "Zudio Denim",
     category: "Jackets",
     size: ["S", "M", "L", "XL"],
@@ -70,7 +70,7 @@ const zudioProducts = [
     name: "Striped Relaxed Poplin Shirt",
     description:
       "Crisp breathable cotton poplin shirt in yarn-dyed stripes with a chest patch pocket.",
-    price: 39.9,
+    price: 699,
     brand: "Zudio Essentials",
     category: "Men",
     size: ["S", "M", "L", "XL"],
@@ -85,7 +85,7 @@ const zudioProducts = [
     name: "Minimalist Geometric Boxy Tee",
     description:
       "240 GSM combed cotton boxy t-shirt featuring subtle tonal geometric artwork.",
-    price: 24.99,
+    price: 399,
     brand: "Zudio Street",
     category: "Tshirts",
     size: ["S", "M", "L", "XL"],
@@ -100,7 +100,7 @@ const zudioProducts = [
     name: "Structured Buckle Crossbody Bag",
     description:
       "Compact faux-leather shoulder and crossbody bag with matte metal buckle and adjustable strap.",
-    price: 54.0,
+    price: 799,
     brand: "Zudio Accessories",
     category: "Bags",
     size: ["S", "M"],
@@ -115,7 +115,7 @@ const zudioProducts = [
     name: "Tailored Ivory Linen Overshirt",
     description:
       "Relaxed women's linen-blend overshirt designed for effortless desk-to-weekend styling.",
-    price: 52.0,
+    price: 999,
     brand: "Zudio Woman",
     category: "Women",
     size: ["S", "M", "L"],
@@ -130,7 +130,7 @@ const zudioProducts = [
     name: "Urban Utility Charcoal Jacket",
     description:
       "Structured twill jacket layered for clean everyday menswear with concealed snap placket.",
-    price: 58.0,
+    price: 1199,
     brand: "Zudio Urban",
     category: "Men",
     size: ["M", "L", "XL"],
@@ -145,7 +145,7 @@ const zudioProducts = [
     name: "Pastel Fleece Pullover Hoodie",
     description:
       "Ultra-soft brushed fleece hoodie for youth and casual everyday wear with ribbed cuffs.",
-    price: 34.5,
+    price: 599,
     brand: "Zudio Youth",
     category: "Hoodies",
     size: ["S", "M", "L"],
@@ -160,7 +160,7 @@ const zudioProducts = [
     name: "Essential Heavyweight Crewneck",
     description:
       "320 GSM French terry crewneck sweatshirt built for structured comfort and clean drape.",
-    price: 42.0,
+    price: 799,
     brand: "Zudio Essentials",
     category: "Sweatshirts",
     size: ["S", "M", "L", "XL"],
@@ -175,7 +175,7 @@ const zudioProducts = [
     name: "Studio Relaxed Knit & Denim Set",
     description:
       "Minimalist knitwear paired with relaxed-fit denim for effortless studio-to-street styling.",
-    price: 68.0,
+    price: 1399,
     brand: "Zudio Studio",
     category: "Women",
     size: ["S", "M", "L"],
@@ -190,7 +190,7 @@ const zudioProducts = [
     name: "Olive Utility Overshirt & Cargo Drop",
     description:
       "Street-ready layered overshirt and wide-leg cargo silhouette built for everyday movement.",
-    price: 62.5,
+    price: 1199,
     brand: "Zudio Street",
     category: "Tshirts",
     size: ["S", "M", "L", "XL"],

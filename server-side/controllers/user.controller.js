@@ -198,10 +198,88 @@ const getInTouch = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+// Get logged-in user's profile
+const getMe = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select(
+      "-password -otp -otpExpiration"
+    );
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+// Update logged-in user's profile & addresses
+const updateMe = async (req, res) => {
+  try {
+    const { name, phone, addresses } = req.body;
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (name !== undefined) user.name = name.trim();
+    if (phone !== undefined) user.phone = phone.trim();
+    if (Array.isArray(addresses)) user.addresses = addresses;
+
+    await user.save({ validateModifiedOnly: true });
+
+    const safeUser = user.toObject();
+    delete safeUser.password;
+    delete safeUser.otp;
+    delete safeUser.otpExpiration;
+
+    res.status(200).json({
+      message: "Profile updated successfully",
+      user: safeUser,
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message || "Update failed" });
+  }
+};
+
+// Change password for logged-in user
+const changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword) {
+      return res
+        .status(400)
+        .json({ message: "Current and new passwords are required" });
+    }
+
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isMatch = await user.comparePassword(currentPassword);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Current password is incorrect" });
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: error.message || "Could not change password" });
+  }
+};
+
 module.exports = {
   registerUser,
   forgotPassword,
   resetPassword,
   loginUser,
   getInTouch,
+  getMe,
+  updateMe,
+  changePassword,
 };

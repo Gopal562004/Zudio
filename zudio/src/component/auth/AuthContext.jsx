@@ -1,36 +1,56 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("zudioToken");
-    if (token) {
-      setIsAuthenticated(!!token);
-      // Decode the token or use the data directly (if it's already in JSON format)
-      const decodedToken = JSON.parse(atob(token.split(".")[1])); // Decode JWT token if needed
-      setUser(decodedToken);
+const decodeJwtPayload = (token) => {
+  try {
+    const payload = token.split(".")[1];
+    if (!payload) return null;
+    const decoded = JSON.parse(atob(payload));
+    if (decoded.exp && decoded.exp * 1000 < Date.now()) {
+      return null;
     }
-  }, []);
+    return decoded;
+  } catch {
+    return null;
+  }
+};
+
+const getInitialUser = () => {
+  const token = localStorage.getItem("zudioToken");
+  if (!token) return null;
+  const decoded = decodeJwtPayload(token);
+  if (!decoded) {
+    localStorage.removeItem("zudioToken");
+    return null;
+  }
+  return decoded;
+};
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(getInitialUser);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    () => getInitialUser() !== null
+  );
 
   const login = (token) => {
-    // Save token to localStorage
+    if (!token) return;
     localStorage.setItem("zudioToken", token);
-    // Decode and store user data
-    const decodedToken = JSON.parse(atob(token.split(".")[1])); // Decoding JWT to extract user info
-    setUser(decodedToken);
+    const decodedToken = decodeJwtPayload(token);
+    if (decodedToken) {
+      setUser(decodedToken);
+      setIsAuthenticated(true);
+    }
   };
 
   const logout = () => {
     setUser(null);
+    setIsAuthenticated(false);
     localStorage.removeItem("zudioToken");
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout,isAuthenticated }}>
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

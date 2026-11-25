@@ -47,12 +47,12 @@ const MobileShopSideBar = ({ isOpen, onClose, onFilterChange }) => {
       { name: "Women", count: 24 },
     ],
     prices: [
-      "$1-$50",
-      "$50-$100",
-      "$100-$150",
-      "$150-$200",
-      "$200-$250",
-      "$250-$300",
+      "₹1-₹500",
+      "₹500-₹1000",
+      "₹1000-₹1500",
+      "₹1500-₹2000",
+      "₹2000-₹3000",
+      "₹3000-₹5000",
     ],
     colors: [
       { name: "Blue", color: "bg-blue-500", count: 46 },
@@ -123,7 +123,7 @@ const MobileShopSideBar = ({ isOpen, onClose, onFilterChange }) => {
 
     // Handle price separately
     if (type === "price" && updated.length > 0) {
-      const [min, max] = updated[0].replace(/\$/g, "").split("-");
+      const [min, max] = updated[0].replace(/[₹$,]/g, "").split("-");
       payload.minPrice = Number(min);
       payload.maxPrice = Number(max);
     } else if (type === "price") {

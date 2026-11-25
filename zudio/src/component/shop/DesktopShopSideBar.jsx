@@ -13,9 +13,9 @@ import {
   X,
 } from "lucide-react";
 
-// Helper to parse price strings like "$1-$50" to { min: 1, max: 50 }
+// Helper to parse price strings like "₹1-₹500" to { min: 1, max: 500 }
 const parsePrice = (priceStr) => {
-  const [min, max] = priceStr.replace(/\$/g, "").split("-");
+  const [min, max] = priceStr.replace(/[₹$,]/g, "").split("-");
   return { min: Number(min), max: Number(max) };
 };
 
@@ -242,12 +242,12 @@ const ShopSideBar = ({ onFilterChange }) => {
         {renderSection(
           "Price Range",
           [
-            "$1-$50",
-            "$50-$100",
-            "$100-$150",
-            "$150-$200",
-            "$200-$250",
-            "$250-$300",
+            "₹1-₹500",
+            "₹500-₹1000",
+            "₹1000-₹1500",
+            "₹1500-₹2000",
+            "₹2000-₹3000",
+            "₹3000-₹5000",
           ],
           "price",
           selectedPrices,

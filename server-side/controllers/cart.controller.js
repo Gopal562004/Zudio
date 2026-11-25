@@ -66,7 +66,18 @@ const getCart = async (req, res) => {
     );
 
     if (!cart) {
-      return res.status(404).json({ message: "Cart not found" });
+      return res.status(200).json({ items: [], totalPrice: 0 });
+    }
+
+    // Remove orphaned items whose product was deleted/replaced
+    const validItems = cart.items.filter((item) => item.product !== null);
+    if (validItems.length !== cart.items.length) {
+      cart.items = validItems;
+      cart.totalPrice = validItems.reduce(
+        (sum, item) => sum + (item.product?.price || 0) * item.quantity,
+        0
+      );
+      await cart.save();
     }
 
     res.status(200).json(cart);
@@ -94,7 +105,7 @@ const updateCartItem = async (req, res) => {
     );
 
     if (!cart) {
-      return res.status(404).json({ message: "Cart not found" });
+      return res.status(200).json({ items: [], totalPrice: 0 });
     }
 
     const item = cart.items.id(itemId);
@@ -159,7 +170,7 @@ const removeItemFromCart = async (req, res) => {
     );
 
     if (!cart) {
-      return res.status(404).json({ message: "Cart not found" });
+      return res.status(200).json({ items: [], totalPrice: 0 });
     }
 
     // Find the item to remove and filter it out
@@ -215,7 +226,7 @@ const clearCart = async (req, res) => {
     const cart = await Cart.findOne({ user: req.user.id });
 
     if (!cart) {
-      return res.status(404).json({ message: "Cart not found" });
+      return res.status(200).json({ items: [], totalPrice: 0 });
     }
 
     // Clear the items in the cart

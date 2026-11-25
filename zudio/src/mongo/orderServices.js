@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = `${import.meta.env.VITE_API_URL}/orders`;
+const BASE_URL = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+const API_URL = `${BASE_URL}/orders`;
 
 // Get token from localStorage
 const getToken = () => {

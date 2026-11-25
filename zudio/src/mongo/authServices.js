@@ -70,3 +70,30 @@ export const sendContactForm = async (formData) => {
     throw error.response?.data?.error || "Something went wrong";
   }
 };
+
+// Get logged-in user profile
+export const getMyProfile = async () => {
+  const token = localStorage.getItem("zudioToken");
+  const response = await axiosInstance.get("/users/me", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+};
+
+// Update logged-in user profile / addresses
+export const updateMyProfile = async (data) => {
+  const token = localStorage.getItem("zudioToken");
+  const response = await axiosInstance.put("/users/me", data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+};
+
+// Change logged-in user password
+export const changeMyPassword = async (data) => {
+  const token = localStorage.getItem("zudioToken");
+  const response = await axiosInstance.put("/users/change-password", data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+};

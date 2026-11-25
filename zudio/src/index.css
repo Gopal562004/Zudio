@@ -30,3 +30,27 @@
     --swiper-navigation-size: 11px;
   }
 }
+
+/* Zudio Editorial React-Toastify Theme */
+:root {
+  --toastify-color-light: #ffffff;
+  --toastify-color-info: #111111;
+  --toastify-color-success: #111111;
+  --toastify-color-warning: #111111;
+  --toastify-color-error: #dc2626;
+  --toastify-text-color-light: #111111;
+  --toastify-color-progress-light: #111111;
+  --toastify-color-progress-info: #111111;
+  --toastify-color-progress-success: #111111;
+  --toastify-color-progress-error: #dc2626;
+}
+
+.Toastify__toast {
+  border-radius: 0 !important;
+  font-family: inherit !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+}
+
+.Toastify__close-button {
+  color: #525252 !important;
+}

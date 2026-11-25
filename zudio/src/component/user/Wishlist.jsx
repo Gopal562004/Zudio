@@ -307,7 +307,7 @@ const Wishlist = () => {
                           {product.name}
                         </h3>
                         <span className="text-xs font-bold whitespace-nowrap">
-                          ${product.price}
+                          ₹{Number(product.price).toLocaleString("en-IN")}
                         </span>
                       </div>
 

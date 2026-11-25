@@ -1,7 +1,8 @@
 import axios from "axios";
 
 
-const API_URL = `${import.meta.env.VITE_API_URL}/carts`; // Change URL based on your backend
+const BASE_URL = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+const API_URL = `${BASE_URL}/carts`;
 
 // Function to get token from localStorage
 const getToken = () => {

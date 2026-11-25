@@ -25,7 +25,7 @@ import {
   TruckIcon,
 } from "lucide-react";
 import { useLocation, useParams, useNavigate, Link } from "react-router-dom";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import { addItemToCart, updateCartItem } from "../../mongo/cartServices";
 import { getProducts } from "../../mongo/productServices";
 import {
@@ -87,13 +87,18 @@ const MainProductCard = () => {
   }, [product]);
 
   const handleAddToCart = async () => {
+    const token = localStorage.getItem("zudioToken");
+    if (!token) {
+      toast.info("Please log in to add items to your cart.");
+      return;
+    }
     try {
       let res = await addItemToCart(product._id, quantity);
       console.log(res);
       setIsInCart(true);
       toast.success("Added to cart!");
     } catch (error) {
-      toast.error("Error adding item to cart or login first");
+      toast.error(error?.message || "Could not add item to cart.");
     }
   };
 
@@ -123,21 +128,44 @@ const MainProductCard = () => {
   };
 
   const handleToggleWishlist = async (productId) => {
+    const token = localStorage.getItem("zudioToken");
+    if (!token) {
+      toast.info("Please log in to save items to your wishlist.");
+      return;
+    }
+
     try {
       const isWishlisted = wishlist.some((item) => item._id === productId);
 
       if (isWishlisted) {
-        await removeFromWishlist(productId);
-        setWishlist((prev) => prev.filter((item) => item._id !== productId));
+        const res = await removeFromWishlist(productId);
+        setWishlist(
+          Array.isArray(res?.wishlist)
+            ? res.wishlist
+            : wishlist.filter((item) => item._id !== productId)
+        );
         toast.success("Removed from wishlist");
       } else {
-        const newItem = await addToWishlist(productId);
-        setWishlist((prev) => [...prev, newItem]);
+        const res = await addToWishlist(productId);
+        if (Array.isArray(res?.wishlist)) {
+          setWishlist(res.wishlist);
+        } else if (res?._id) {
+          setWishlist((prev) => [...prev, res]);
+        }
         toast.success("Added to wishlist");
       }
     } catch (error) {
       console.error("Error toggling wishlist:", error);
-      toast.error("Something went wrong while updating wishlist.");
+      const status = error?.response?.status;
+      const serverMsg =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        error?.message;
+      if (status === 401) {
+        toast.info("Session expired. Please log in again.");
+      } else {
+        toast.error(serverMsg || "Could not update wishlist. Please try again.");
+      }
     }
   };
 
@@ -305,7 +333,7 @@ const MainProductCard = () => {
               {/* Price - Prominent but Compact */}
               <div className="mb-4">
                 <p className="text-2xl sm:text-3xl font-bold">
-                  ${product.price}
+                  ₹{Number(product.price).toLocaleString("en-IN")}
                 </p>
                 {product.stock < 50 && (
                   <p className="text-xs text-red-600 font-medium mt-1">
@@ -519,7 +547,7 @@ const MainProductCard = () => {
                         {item.brand}
                       </p>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm font-bold">${item.price}</span>
+                        <span className="text-sm font-bold">₹{Number(item.price).toLocaleString("en-IN")}</span>
                         {item.avgRating > 0 && (
                           <div className="flex items-center">
                             <Star className="w-3 h-3 fill-gray-300 stroke-gray-300" />

@@ -13,31 +13,31 @@ const fallbackBestSellers = [
   {
     name: "Beige Ribbed Knit Sweater",
     category: "Sweatshirts",
-    price: 45.9,
+    price: 899,
     images: ["/images/prod-knit-sweater.jpg"],
   },
   {
     name: "Charcoal Oversized Hoodie",
     category: "Hoodies",
-    price: 49.99,
+    price: 999,
     images: ["/images/prod-hoodie.jpg"],
   },
   {
     name: "Matte Black Technical Windbreaker",
     category: "Jackets",
-    price: 64.9,
+    price: 1299,
     images: ["/images/prod-windbreaker.jpg"],
   },
   {
     name: "Classic Washed Denim Jacket",
     category: "Jackets",
-    price: 74.5,
+    price: 1499,
     images: ["/images/prod-denim-jacket.jpg"],
   },
   {
     name: "Structured Buckle Crossbody Bag",
     category: "Bags",
-    price: 54.0,
+    price: 799,
     images: ["/images/prod-crossbody-bag.jpg"],
   },
 ];
@@ -201,7 +201,7 @@ const TopProduct = () => {
                     {product.name}
                   </p>
                   <p className="text-sm font-semibold text-neutral-900 mt-1">
-                    ${Number(product.price).toFixed(2)}
+                    ₹{Number(product.price).toLocaleString("en-IN")}
                   </p>
                 </div>
               </div>

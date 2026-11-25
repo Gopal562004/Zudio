@@ -7,26 +7,26 @@ const CustomSwiper = () => {
       src: "sweater.jpg",
       alt: "Soft knit sweater",
       description: "Soft knit sweater",
-      price: "$45.90",
+      price: "₹899",
     },
     {
       src: "hoodie.jpg",
       alt: "Printed graphic hoodie",
       description: "Printed graphic hoodie",
-      price: "$45.90",
+      price: "₹999",
     },
     {
       src: "tshirt.jpg",
       alt: "Short sleeve mushrooms T-shirt",
       description: "Short sleeve mushrooms T-shirt",
-      price: "$27.90",
+      price: "₹399",
     },
     {
       src: "denim-jacket.jpg",
       alt: "Drop-shoulder denim jacket",
       description: "Drop-shoulder denim jacket",
-      price: "$39.90",
-      oldPrice: "$49.90",
+      price: "₹1,299",
+      oldPrice: "₹1,699",
     },
     // Add more items as needed
   ];

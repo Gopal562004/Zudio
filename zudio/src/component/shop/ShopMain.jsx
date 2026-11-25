@@ -6,6 +6,12 @@ import ShopSideBar from "./DesktopShopSideBar";
 import MobileShopSideBar from "./MobileShopSideBar";
 import { getProducts } from "../../mongo/productServices";
 import {
+  getWishlist,
+  addToWishlist,
+  removeFromWishlist,
+} from "../../mongo/wishlistServices";
+import { toast } from "react-toastify";
+import {
   ChevronRight,
   Filter,
   X,
@@ -25,6 +31,49 @@ import { useNavigate } from "react-router-dom";
 // ProductCategories component with animations
 const ProductCategories = ({ products, viewMode = "grid" }) => {
   const navigate = useNavigate();
+  const [wishlistIds, setWishlistIds] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("zudioToken");
+    if (!token) return;
+    getWishlist()
+      .then((res) => {
+        const list = res?.wishlist || [];
+        setWishlistIds(list.map((item) => item._id || item));
+      })
+      .catch(() => {});
+  }, []);
+
+  const handleToggleWishlist = async (e, productId) => {
+    e.stopPropagation();
+    const token = localStorage.getItem("zudioToken");
+    if (!token) {
+      toast.info("Please log in to save items to your wishlist.");
+      return;
+    }
+
+    try {
+      const isWishlisted = wishlistIds.includes(productId);
+      if (isWishlisted) {
+        await removeFromWishlist(productId);
+        setWishlistIds((prev) => prev.filter((id) => id !== productId));
+        toast.success("Removed from wishlist");
+      } else {
+        await addToWishlist(productId);
+        setWishlistIds((prev) => [...prev, productId]);
+        toast.success("Added to wishlist");
+      }
+    } catch (error) {
+      const status = error?.response?.status;
+      if (status === 401) {
+        toast.info("Session expired. Please log in again.");
+      } else {
+        toast.error(
+          error?.response?.data?.message || "Could not update wishlist."
+        );
+      }
+    }
+  };
 
   const handleProductClick = (product) => {
     navigate(`/product/${product._id}`, { state: { product } });
@@ -102,7 +151,7 @@ const ProductCategories = ({ products, viewMode = "grid" }) => {
                   {product.name}
                 </h3>
                 <span className="text-sm sm:text-base font-bold">
-                  ${product.price}
+                  ₹{Number(product.price).toLocaleString("en-IN")}
                 </span>
               </div>
 
@@ -185,11 +234,20 @@ const ProductCategories = ({ products, viewMode = "grid" }) => {
             )}
 
             <motion.button
-              className="absolute top-2 right-2 bg-white p-1.5 rounded-full shadow-xs hover:shadow-sm transition opacity-0 group-hover:opacity-100"
+              type="button"
+              onClick={(e) => handleToggleWishlist(e, product._id)}
+              aria-label="Toggle wishlist"
+              className="absolute top-2 right-2 bg-white p-1.5 rounded-full shadow-xs hover:shadow-sm transition opacity-0 group-hover:opacity-100 cursor-pointer"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              <Heart className="w-4 h-4 stroke-gray-400 hover:stroke-red-500" />
+              <Heart
+                className={`w-4 h-4 transition-colors ${
+                  wishlistIds.includes(product._id)
+                    ? "fill-red-500 stroke-red-500"
+                    : "stroke-gray-400 hover:stroke-red-500"
+                }`}
+              />
             </motion.button>
 
             {product.stock < 10 && (
@@ -208,7 +266,7 @@ const ProductCategories = ({ products, viewMode = "grid" }) => {
             <h3 className="text-sm font-medium truncate">{product.name}</h3>
             <p className="text-xs text-gray-500 truncate">{product.brand}</p>
             <div className="flex items-center justify-between">
-              <span className="text-sm font-bold">${product.price}</span>
+              <span className="text-sm font-bold">₹{Number(product.price).toLocaleString("en-IN")}</span>
               <div className="flex items-center">
                 <Star className="w-3 h-3 fill-gray-300 stroke-gray-300" />
                 <span className="text-xs text-gray-500 ml-0.5">

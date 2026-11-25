@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = `${import.meta.env.VITE_API_URL}/wishlist`;
+const BASE_URL = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+const API_URL = `${BASE_URL}/wishlist`;
 
 // Helper to get the token from localStorage
 const getToken = () => {

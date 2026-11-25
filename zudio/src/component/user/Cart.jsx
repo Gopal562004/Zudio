@@ -82,7 +82,7 @@ const Cart = () => {
 
   const calculateTotal = () => {
     const subtotal = cart.totalPrice || 0;
-    const shipping = subtotal > 100 ? 0 : 10;
+    const shipping = subtotal > 999 ? 0 : 79;
     const tax = subtotal * 0.08; // 8% tax
     return {
       subtotal,
@@ -175,7 +175,9 @@ const Cart = () => {
 
               {/* Cart Items List */}
               <div className="space-y-3">
-                {cart.items.map((item) => (
+                {cart.items
+                  .filter((item) => item?.product)
+                  .map((item) => (
                   <div
                     key={item._id}
                     className="border border-gray-100 rounded p-3 sm:p-4 hover:border-gray-300 transition group"
@@ -187,8 +189,8 @@ const Cart = () => {
                         onClick={() => handleProductClick(item)}
                       >
                         <img
-                          src={item.product.images[0]}
-                          alt={item.product.name}
+                          src={item.product?.images?.[0] || "/images/prod-hoodie.jpg"}
+                          alt={item.product?.name || "Product"}
                           className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded"
                         />
                         <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity rounded"></div>
@@ -202,10 +204,10 @@ const Cart = () => {
                               onClick={() => handleProductClick(item)}
                               className="text-sm font-medium truncate cursor-pointer hover:text-gray-600 transition"
                             >
-                              {item.product.name}
+                              {item.product?.name}
                             </h3>
                             <p className="text-xs text-gray-500 mt-1">
-                              {item.product.brand}
+                              {item.product?.brand}
                             </p>
                             <div className="flex items-center gap-2 mt-2">
                               <span className="text-xs px-1.5 py-0.5 bg-gray-100 rounded">
@@ -219,7 +221,7 @@ const Cart = () => {
 
                           {/* Price */}
                           <p className="text-sm font-bold">
-                            ${item.product.price.toFixed(2)}
+                            ₹{(item.product?.price || 0).toFixed(2)}
                           </p>
                         </div>
 
@@ -263,7 +265,7 @@ const Cart = () => {
                           <p className="text-xs text-gray-500">
                             Subtotal:{" "}
                             <span className="font-medium">
-                              ${(item.product.price * item.quantity).toFixed(2)}
+                              ₹{((item.product?.price || 0) * item.quantity).toFixed(2)}
                             </span>
                           </p>
                         </div>
@@ -305,7 +307,7 @@ const Cart = () => {
                   <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
                     <span className="text-gray-600">Subtotal</span>
                     <span className="font-medium">
-                      ${totals.subtotal.toFixed(2)}
+                      ₹{totals.subtotal.toFixed(2)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
@@ -316,30 +318,30 @@ const Cart = () => {
                     <span className="font-medium">
                       {totals.shipping === 0
                         ? "FREE"
-                        : `$${totals.shipping.toFixed(2)}`}
+                        : `₹${totals.shipping.toFixed(2)}`}
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-1.5 border-b border-gray-100">
                     <span className="text-gray-600">Tax (8%)</span>
                     <span className="font-medium">
-                      ${totals.tax.toFixed(2)}
+                      ₹{totals.tax.toFixed(2)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center pt-3 border-t border-gray-200">
                     <span className="font-semibold">Total</span>
                     <span className="text-lg font-bold">
-                      ${totals.total.toFixed(2)}
+                      ₹{totals.total.toFixed(2)}
                     </span>
                   </div>
                 </div>
 
                 {/* Free Shipping Notice */}
-                {totals.subtotal < 100 && (
+                {totals.subtotal < 999 && (
                   <div className="mb-6 p-3 bg-gray-50 rounded text-xs">
                     <p className="text-gray-600">
                       Add{" "}
                       <span className="font-medium">
-                        ${(100 - totals.subtotal).toFixed(2)}
+                        ₹{(999 - totals.subtotal).toFixed(2)}
                       </span>{" "}
                       more for{" "}
                       <span className="font-medium">FREE shipping</span>
@@ -370,7 +372,7 @@ const Cart = () => {
                 <div className="grid grid-cols-2 gap-4 text-xs text-gray-600">
                   <div className="text-center">
                     <Package className="w-5 h-5 mx-auto mb-1" />
-                    <p>Free shipping on orders over $100</p>
+                    <p>Free shipping on orders over ₹999</p>
                   </div>
                   <div className="text-center">
                     <Truck className="w-5 h-5 mx-auto mb-1" />

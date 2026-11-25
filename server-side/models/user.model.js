@@ -52,6 +52,7 @@ const UserSchema = new mongoose.Schema(
     },
     addresses: [
       {
+        label: { type: String, default: "Home", trim: true },
         line: { type: String, required: true },
         street: { type: String, required: true },
         city: { type: String, required: true },

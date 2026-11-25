@@ -18,9 +18,12 @@ import MainProductCard from "./component/shared/mainProductCard";
 import Wishlist from "./component/user/Wishlist";
 import Cart from "./component/user/Cart";
 import Buy from "./component/user/Buy";
+import Checkout from "./component/user/Checkout";
 import AuthLayout from "./component/auth/AuthLayout";
 import ProfileLayout from "./component/user/ProfileLayout";
 import Profile from "./component/user/Profile";
+import MyOrders from "./component/user/MyOrders";
+import Settings from "./component/user/Settings";
 import ContactUs from "./component/contactUs/ContactUs";
 import Blog from "./component/blog/Blog";
 
@@ -31,8 +34,30 @@ const App = () => {
         {/* ✅ Analytics should be here */}
         <Analytics />
 
-        <ToastContainer />
-        <Toaster position="top-right" />
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          pauseOnHover
+          toastClassName="!rounded-none !bg-white !text-neutral-900 !border !border-neutral-900 !shadow-lg !text-xs !font-medium !tracking-wide"
+          progressClassName="!bg-black"
+        />
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 3000,
+            style: {
+              borderRadius: "0px",
+              background: "#111111",
+              color: "#ffffff",
+              border: "1px solid #262626",
+              fontSize: "12px",
+              padding: "10px 14px",
+            },
+          }}
+        />
 
         <Routes>
           {/* Auth Routes */}
@@ -68,6 +93,10 @@ const App = () => {
                     path="/buy"
                     element={<ProtectedRoute element={<Buy />} />}
                   />
+                  <Route
+                    path="/checkout"
+                    element={<ProtectedRoute element={<Checkout />} />}
+                  />
 
                   {/* Profile Section */}
                   <Route
@@ -75,7 +104,9 @@ const App = () => {
                     element={<ProtectedRoute element={<ProfileLayout />} />}
                   >
                     <Route index element={<Profile />} />
+                    <Route path="myorders" element={<MyOrders />} />
                     <Route path="wishlist" element={<Wishlist />} />
+                    <Route path="setting" element={<Settings />} />
                   </Route>
                 </Routes>
                 <Footer />

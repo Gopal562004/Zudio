@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { CiUser, CiSearch, CiHeart, CiShoppingCart } from "react-icons/ci";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { ArrowLeft, ArrowUpRight, Clock, TrendingUp, X } from "lucide-react";
@@ -199,19 +199,28 @@ const Header = () => {
 
             {/* Center: Desktop Nav + Amazon/Flipkart-style Search Trigger Bar */}
             <div className="hidden md:flex items-center flex-1 max-w-2xl gap-6">
-              <nav className="flex space-x-5 text-xs font-medium uppercase tracking-wider flex-shrink-0">
-                <Link to="/" className="hover:text-gray-600 transition">
-                  HOME
-                </Link>
-                <Link to="/shop" className="hover:text-gray-600 transition">
-                  SHOP
-                </Link>
-                <Link to="/blog" className="hover:text-gray-600 transition">
-                  BLOG
-                </Link>
-                <Link to="/contact-us" className="hover:text-gray-600 transition">
-                  CONTACT
-                </Link>
+              <nav className="flex space-x-5 text-xs uppercase tracking-wider flex-shrink-0">
+                {[
+                  { to: "/", label: "HOME", end: true },
+                  { to: "/shop", label: "SHOP" },
+                  { to: "/blog", label: "BLOG" },
+                  { to: "/contact-us", label: "CONTACT" },
+                ].map((item) => (
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
+                    end={item.end}
+                    className={({ isActive }) =>
+                      `pb-0.5 border-b-2 transition-colors ${
+                        isActive
+                          ? "border-black text-black font-semibold"
+                          : "border-transparent text-neutral-500 hover:text-black font-medium"
+                      }`
+                    }
+                  >
+                    {item.label}
+                  </NavLink>
+                ))}
               </nav>
 
               <button
@@ -342,34 +351,28 @@ const Header = () => {
             isOpen ? "block" : "hidden"
           } md:hidden bg-white border-t border-gray-200`}
         >
-          <Link
-            to="/"
-            className="block py-3 px-4 hover:bg-gray-50 transition text-sm"
-            onClick={() => setIsOpen(false)}
-          >
-            HOME
-          </Link>
-          <Link
-            to="/shop"
-            className="block py-3 px-4 hover:bg-gray-50 transition text-sm"
-            onClick={() => setIsOpen(false)}
-          >
-            SHOP
-          </Link>
-          <Link
-            to="/blog"
-            className="block py-3 px-4 hover:bg-gray-50 transition text-sm"
-            onClick={() => setIsOpen(false)}
-          >
-            BLOG
-          </Link>
-          <Link
-            to="/contact-us"
-            className="block py-3 px-4 hover:bg-gray-50 transition text-sm"
-            onClick={() => setIsOpen(false)}
-          >
-            CONTACT US
-          </Link>
+          {[
+            { to: "/", label: "HOME", end: true },
+            { to: "/shop", label: "SHOP" },
+            { to: "/blog", label: "BLOG" },
+            { to: "/contact-us", label: "CONTACT US" },
+          ].map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.end}
+              onClick={() => setIsOpen(false)}
+              className={({ isActive }) =>
+                `block py-3 px-4 text-sm transition border-l-2 ${
+                  isActive
+                    ? "bg-neutral-100 text-black font-semibold border-black"
+                    : "text-neutral-600 hover:bg-gray-50 border-transparent"
+                }`
+              }
+            >
+              {item.label}
+            </NavLink>
+          ))}
         </div>
       </header>
 
@@ -504,7 +507,7 @@ const Header = () => {
                               {item.name}
                             </p>
                             <p className="text-xs sm:text-sm font-bold mt-1">
-                              ${Number(item.price).toFixed(2)}
+                              ₹{Number(item.price).toLocaleString("en-IN")}
                             </p>
                           </div>
                         </div>

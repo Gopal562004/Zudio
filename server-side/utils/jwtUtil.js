@@ -8,8 +8,10 @@ const generateToken = (user) => {
     role: user.role,
   };
 
-  // Sign the token with a secret and set its expiration time
-  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "5h" });
+  // Sign the token with a secret and set its expiration time (default 30 days)
+  return jwt.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN || "30d",
+  });
 };
 
 // Verify the JWT token and extract the user payload

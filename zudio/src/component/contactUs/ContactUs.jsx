@@ -1,9 +1,62 @@
-
 import React, { useState } from "react";
 import { sendContactForm } from "../../mongo/authServices";
 import { Link } from "react-router-dom";
-import { ChevronRight } from "lucide-react";
-import { motion } from "framer-motion";
+import {
+  ChevronRight,
+  ChevronDown,
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  ArrowRight,
+  CheckCircle2,
+  AlertCircle,
+} from "lucide-react";
+
+const contactItems = [
+  {
+    icon: MapPin,
+    title: "Flagship Studio",
+    text: "123 Fashion Avenue, Studio District, India",
+  },
+  {
+    icon: Phone,
+    title: "Customer Care",
+    text: "+91 00000 00000",
+  },
+  {
+    icon: Mail,
+    title: "Email Support",
+    text: "support@zudio-demo.com",
+  },
+  {
+    icon: Clock,
+    title: "Working Hours",
+    text: "Mon - Sat: 10 AM - 8 PM",
+  },
+];
+
+const quickTopics = [
+  "Order Status",
+  "Returns & Exchange",
+  "Size & Fit",
+  "Bulk / Styling",
+];
+
+const faqs = [
+  {
+    q: "How long does delivery take?",
+    a: "Standard orders ship within 24 hours and arrive in 2–5 business days across India. Free shipping applies on orders over ₹999.",
+  },
+  {
+    q: "What is your return & exchange policy?",
+    a: "Unworn items with original tags can be returned or exchanged within 14 days of delivery.",
+  },
+  {
+    q: "How do I track my order?",
+    a: "Visit your Profile page after signing in to view live order updates and tracking details.",
+  },
+];
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -12,9 +65,10 @@ const ContactPage = () => {
     subject: "",
     message: "",
   });
-
   const [loading, setLoading] = useState(false);
   const [responseMsg, setResponseMsg] = useState("");
+  const [isError, setIsError] = useState(false);
+  const [openFaq, setOpenFaq] = useState(0);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,247 +78,247 @@ const ContactPage = () => {
     e.preventDefault();
     setLoading(true);
     setResponseMsg("");
+    setIsError(false);
 
     try {
       const response = await sendContactForm(formData);
-      setResponseMsg(response.message || "Message sent successfully!");
+      setResponseMsg(
+        response?.message || "Thank you! Our team will respond within 24 hours."
+      );
       setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (error) {
-      setResponseMsg(error || "Something went wrong!");
+      setIsError(true);
+      setResponseMsg(
+        typeof error === "string"
+          ? error
+          : error?.message || "Something went wrong. Please try again."
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  // Animation variants
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  };
-
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const fadeIn = {
-    hidden: { opacity: 0, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.4 },
-    },
-  };
-
-  const contactItems = [
-    {
-      icon: "📍",
-      title: "Store Address",
-      text: "Virar, Maharashtra 401303, India",
-    },
-    {
-      icon: "📞",
-      title: "Call Us",
-      text: "+91 8237742040",
-    },
-    {
-      icon: "✉️",
-      title: "Email Us",
-      text: "zudioclothing.info@gmail.com",
-    },
-    {
-      icon: "⏰",
-      title: "Working Hours",
-      text: "Mon - Fri: 9 AM - 6 PM",
-    },
-  ];
-
   return (
-    <div className="min-h-screen bg-white text-black px-4 sm:px-6 py-8 md:py-12 lg:px-8">
-      {/* Animated Header */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={fadeInUp}
-        className="text-center mb-8"
-      >
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold mb-3">
-          Contact Us
-        </h1>
-        <nav className="flex items-center justify-center space-x-1 text-xs sm:text-sm">
-          <Link to="/" className="text-gray-500 hover:text-black transition">
-            Home
-          </Link>
-          <ChevronRight className="w-3 h-3 text-gray-300" />
-          <span className="text-black font-sm">Contact Us</span>
-        </nav>
-      </motion.div>
+    <div className="min-h-screen bg-white text-neutral-900">
+      {/* Editorial Header */}
+      <div className="border-b border-neutral-200 bg-neutral-50">
+        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
+          <nav className="flex items-center space-x-1.5 text-xs uppercase tracking-wider text-neutral-500 mb-3">
+            <Link to="/" className="hover:text-black transition">
+              Home
+            </Link>
+            <ChevronRight className="w-3.5 h-3.5" />
+            <span className="text-black font-medium">Contact Us</span>
+          </nav>
+          <p className="text-xs uppercase tracking-[0.2em] text-neutral-500">
+            Customer Concierge
+          </p>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight mt-1">
+            Get in Touch
+          </h1>
+          <p className="text-sm text-neutral-600 mt-2 max-w-xl">
+            Questions about sizing, orders, or styling? Reach out to our team
+            and we’ll get back to you promptly.
+          </p>
+        </div>
+      </div>
 
-      {/* Animated Contact Details */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={staggerContainer}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 text-center mb-12"
-      >
-        {contactItems.map((item, index) => (
-          <motion.div
-            key={index}
-            variants={fadeIn}
-            whileHover={{
-              y: -5,
-              transition: { type: "spring", stiffness: 300, damping: 15 },
-            }}
-            className="p-3 sm:p-4"
-          >
-            <motion.div
-              className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-black text-white flex items-center justify-center rounded-full mx-auto text-xl sm:text-2xl"
-              whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 400 }}
-            >
-              {item.icon}
-            </motion.div>
-            <h3 className="font-bold text-sm sm:text-base mt-3">
-              {item.title}
-            </h3>
-            <p className="text-gray-600 text-xs sm:text-sm mt-1">{item.text}</p>
-          </motion.div>
-        ))}
-      </motion.div>
-
-      {/* Contact Form & Map */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
-        {/* Form Section with Animation */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-white p-4 sm:p-6 shadow rounded-lg"
-        >
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-center lg:text-left">
-            Get In Touch
-          </h2>
-
-          {responseMsg && (
-            <motion.p
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className={`mb-3 text-sm text-center ${
-                responseMsg.includes("success")
-                  ? "text-green-600"
-                  : "text-red-600"
-              }`}
-            >
-              {responseMsg}
-            </motion.p>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-3">
-            {["name", "email", "subject"].map((field, index) => (
-              <motion.div
-                key={field}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 space-y-12">
+        {/* 4 Sharp Contact Info Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {contactItems.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={index}
+                className="border border-neutral-200 hover:border-black p-5 bg-white transition-colors rounded-none flex flex-col justify-between"
               >
-                <input
-                  type={field === "email" ? "email" : "text"}
-                  name={field}
-                  placeholder={`Your ${
-                    field.charAt(0).toUpperCase() + field.slice(1)
+                <div className="w-10 h-10 bg-black text-white flex items-center justify-center rounded-none mb-4">
+                  <Icon className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="text-xs uppercase tracking-[0.15em] font-semibold text-neutral-900">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-neutral-600 mt-1">{item.text}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Form + Concierge / FAQ Split */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Left: Contact Form */}
+          <div className="lg:col-span-7 border border-neutral-200 p-6 sm:p-8 bg-white rounded-none">
+            <h2 className="text-xl sm:text-2xl font-semibold tracking-tight">
+              Send a Message
+            </h2>
+            <p className="text-xs text-neutral-500 mt-1 mb-5">
+              Choose a topic or write your own inquiry below.
+            </p>
+
+            {/* Quick Topic Chips */}
+            <div className="flex flex-wrap gap-2 mb-5">
+              {quickTopics.map((topic) => (
+                <button
+                  key={topic}
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({ ...prev, subject: topic }))
+                  }
+                  className={`px-3 py-1.5 text-xs uppercase tracking-wider border rounded-none transition-colors cursor-pointer ${
+                    formData.subject === topic
+                      ? "bg-black text-white border-black"
+                      : "bg-white text-neutral-700 border-neutral-200 hover:border-black"
                   }`}
-                  value={formData[field]}
+                >
+                  {topic}
+                </button>
+              ))}
+            </div>
+
+            {responseMsg && (
+              <div
+                className={`mb-5 p-3 border text-xs sm:text-sm flex items-center gap-2 rounded-none ${
+                  isError
+                    ? "bg-red-50 border-red-200 text-red-700"
+                    : "bg-emerald-50 border-emerald-200 text-emerald-800"
+                }`}
+              >
+                {isError ? (
+                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                ) : (
+                  <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+                )}
+                <span>{responseMsg}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[11px] uppercase tracking-wider font-medium text-neutral-600 mb-1.5">
+                    Your Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter your name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full border border-neutral-300 px-3.5 py-2.5 text-sm rounded-none bg-white outline-none focus:border-black transition"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] uppercase tracking-wider font-medium text-neutral-600 mb-1.5">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="you@example.com"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full border border-neutral-300 px-3.5 py-2.5 text-sm rounded-none bg-white outline-none focus:border-black transition"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[11px] uppercase tracking-wider font-medium text-neutral-600 mb-1.5">
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  name="subject"
+                  placeholder="How can we help?"
+                  value={formData.subject}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 p-2.5 text-sm rounded bg-transparent outline-none focus:ring-1 focus:ring-black transition"
+                  className="w-full border border-neutral-300 px-3.5 py-2.5 text-sm rounded-none bg-white outline-none focus:border-black transition"
                   required
                 />
-              </motion.div>
-            ))}
+              </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.6 }}
-            >
-              <textarea
-                name="message"
-                placeholder="Your message (optional)"
-                value={formData.message}
-                onChange={handleChange}
-                className="w-full border border-gray-300 p-2.5 text-sm rounded bg-transparent outline-none focus:ring-1 focus:ring-black min-h-[100px] transition"
-              ></textarea>
-            </motion.div>
+              <div>
+                <label className="block text-[11px] uppercase tracking-wider font-medium text-neutral-600 mb-1.5">
+                  Message
+                </label>
+                <textarea
+                  name="message"
+                  placeholder="Write your message here..."
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full border border-neutral-300 px-3.5 py-2.5 text-sm rounded-none bg-white outline-none focus:border-black min-h-[120px] transition"
+                />
+              </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.7 }}
-            >
-              <motion.button
+              <button
                 type="submit"
                 disabled={loading}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full bg-black text-white px-4 py-3 text-sm font-medium hover:bg-gray-900 transition rounded relative overflow-hidden"
+                className="w-full bg-black text-white px-6 py-3.5 text-xs uppercase tracking-wider font-semibold hover:bg-neutral-800 transition rounded-none inline-flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
               >
-                {loading ? (
-                  <motion.div
-                    className="flex items-center justify-center gap-2"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                  >
-                    <motion.div
-                      className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
-                      animate={{ rotate: 360 }}
-                      transition={{
-                        duration: 1,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                    />
-                    Sending...
-                  </motion.div>
-                ) : (
-                  "Send Message"
-                )}
-              </motion.button>
-            </motion.div>
-          </form>
-        </motion.div>
+                {loading ? "Sending..." : "Send Message"}
+                {!loading && <ArrowRight className="w-4 h-4" />}
+              </button>
+            </form>
+          </div>
 
-        {/* Map Section with Animation */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="w-full h-64 sm:h-80 md:h-96 rounded-lg overflow-hidden shadow"
-        >
-          <motion.div
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="w-full h-full"
-          >
-            <iframe
-              className="w-full h-full border-0"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3766.941146549551!2d72.80820531538556!3d19.25303308699584!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b0e57647569d%3A0xc0b5f3f3c6f5b1fa!2sVirar%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1647854325000!5m2!1sen!2sin"
-              allowFullScreen=""
-              loading="lazy"
-              title="Google Map - Virar"
-            />
-          </motion.div>
-        </motion.div>
+          {/* Right: Editorial Studio Card + Interactive FAQs */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="relative h-56 overflow-hidden border border-neutral-200 rounded-none">
+              <img
+                src="/images/col-sale.jpg"
+                alt="Zudio Flagship Studio"
+                className="w-full h-full object-cover object-center"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent flex flex-col justify-end p-5 text-white">
+                <span className="text-[11px] uppercase tracking-[0.2em] text-neutral-300">
+                  Zudio Studio
+                </span>
+                <p className="text-lg font-semibold mt-0.5">
+                  Need instant answers?
+                </p>
+              </div>
+            </div>
+
+            <div className="border border-neutral-200 bg-white rounded-none divide-y divide-neutral-200">
+              <div className="px-5 py-3.5 bg-neutral-50">
+                <h3 className="text-xs uppercase tracking-[0.2em] font-semibold text-neutral-900">
+                  Frequently Asked Questions
+                </h3>
+              </div>
+              {faqs.map((faq, idx) => {
+                const isOpen = openFaq === idx;
+                return (
+                  <div key={idx} className="px-5 py-3.5">
+                    <button
+                      type="button"
+                      onClick={() => setOpenFaq(isOpen ? -1 : idx)}
+                      className="w-full flex items-center justify-between text-left gap-3 cursor-pointer"
+                    >
+                      <span className="text-sm font-medium text-neutral-900">
+                        {faq.q}
+                      </span>
+                      <ChevronDown
+                        className={`w-4 h-4 flex-shrink-0 text-neutral-500 transition-transform ${
+                          isOpen ? "rotate-180 text-black" : ""
+                        }`}
+                      />
+                    </button>
+                    {isOpen && (
+                      <p className="text-xs text-neutral-600 mt-2 leading-relaxed">
+                        {faq.a}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
